@@ -42,13 +42,13 @@ public class AgentManagerImplTest {
     @Before
     public void setUp() throws SQLException {
         dataSource = prepareDataSource();
-        try (Connection connection = dataSource.getConnection()) {
-            connection.prepareStatement("CREATE TABLE AGENT ("
-                    + "id bigint primary key generated always as identity,"
-                    + "name varchar(50) not null,"
-                    + "covername varchar(50) not null,"
-                    + "weapon varchar(50) not null)").executeUpdate();
-        }
+        Connection connection = dataSource.getConnection();
+        connection.prepareStatement("CREATE TABLE AGENT ("
+                + "id bigint primary key generated always as identity,"
+                + "agentname varchar(50) not null,"
+                + "agentcover varchar(50) not null,"
+                + "favweapon varchar(50) not null)").executeUpdate();
+
         manager = new AgentManagerImpl(dataSource);
     }
 

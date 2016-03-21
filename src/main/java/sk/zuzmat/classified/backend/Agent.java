@@ -49,5 +49,30 @@ public class Agent {
         this.favouriteWeapon = favouriteWeapon;
     }
 
+    @Override
+    public String toString() {
+        return "Agent{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", coverName='" + coverName + '\'' +
+                ", favouriteWeapon='" + favouriteWeapon + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Agent agent = (Agent) o;
+
+        return id != null ? id.equals(agent.id) : agent.id == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
 }
  

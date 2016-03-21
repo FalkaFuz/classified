@@ -26,19 +26,19 @@ public class AgentManagerImpl implements AgentManager{
     public void createAgent(Agent agent) {
         validate(agent);
         if (agent.getId() != null) {
-            throw new IllegalArgumentException("agnet id is already set");
+            throw new IllegalArgumentException("agent id is already set");
         }
 
         try (
                 Connection connection = dataSource.getConnection();
                 PreparedStatement st = connection.prepareStatement(
-                        "INSERT INTO AGENT (agentname,agentcover,favweapon) VALUES (?,?,?)",
+                        "INSERT INTO agent (agentname,agentcover,favweapon) VALUES (?,?,?)",
                         Statement.RETURN_GENERATED_KEYS)) {
 
             st.setString(1, agent.getName());
             st.setString(2, agent.getCoverName());
             st.setString(3, agent.getFavouriteWeapon());
-
+            st.executeUpdate();
             ResultSet keyRS = st.getGeneratedKeys();
             agent.setId(getKey(keyRS, agent));
 

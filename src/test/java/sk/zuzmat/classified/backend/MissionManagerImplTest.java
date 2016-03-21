@@ -1,7 +1,5 @@
-package classified;
+package sk.zuzmat.classified.backend;
 
-import classified.Mission;
-import classified.MissionManagerImpl;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -1,26 +1,58 @@
 package sk.zuzmat.classified.backend;
 
-import org.junit.Before;
-import org.junit.Test;
-
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import static org.hamcrest.CoreMatchers.*;
+import javax.sql.DataSource;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.sameInstance;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import static org.junit.Assert.*;
+import org.apache.derby.jdbc.EmbeddedDataSource;
+import org.junit.Rule;
+import org.junit.rules.ExpectedException;
+
 
 /**
  * Created by Mat� on 14. 3. 2016.
  */
 public class MissionManagerImplTest {
+
     private MissionManagerImpl manager;
+    private DataSource ds;
+
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
+
+    private static DataSource prepareDataSource() throws SQLException {
+        EmbeddedDataSource ds = new EmbeddedDataSource();
+        ds.setDatabaseName("memory:agentmgr-test");
+        ds.setCreateDatabase("create");
+        return ds;
+    }
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() throws SQLException {
+        ds = prepareDataSource();
+        DBUtils.executeSqlScript(ds,MissionManager.class.getResource("/createtables.sql"));
         manager = new MissionManagerImpl();
+        manager.setDataSource(ds);
     }
+
+    @After
+    public void tearDown() throws SQLException {
+        DBUtils.executeSqlScript(ds,MissionManager.class.getResource("/droptables.sql"));
+    }
+
 
     @Test
     public void createMission() {
@@ -28,11 +60,14 @@ public class MissionManagerImplTest {
         manager.createMission(mission);
 
         Long missionId = mission.getId();
-        assertThat("saved mission has null id", mission.getId(), is(not(equalTo(null))));
+
+        assertThat(mission.getId(), is(not(equalTo(null))));
 
         Mission result = manager.findMissionById(missionId);
-        assertThat("loaded mission differs from the saved one", result, is(equalTo(mission)));
-        assertThat("loaded mission is the same instance", result, is(not(sameInstance(mission))));
+
+        assertThat(result, is(equalTo(mission)));
+        assertThat(result, is(not(sameInstance(mission))));
+
         assertDeepEquals(mission, result);
 
     }
@@ -42,24 +77,10 @@ public class MissionManagerImplTest {
         manager.createMission(null);
     }
 
+
     @Test
-    public void createMissionWithWrongValues() {
-        Mission mission = newMission("Bora", "palma");
-        try {
-            manager.createMission(mission);
-            fail("id can not be 0");
-        } catch (IllegalArgumentException ex) {
-            //OK
-        }
-
-        mission = newMission("Bora", "palma");
-        try {
-            manager.createMission(mission);
-            fail("id can not be minus");
-        } catch (IllegalArgumentException ex) {
-            //OK
-        }
-
+    public void createMissionWithNullLocation() {
+        Mission mission;
         mission = newMission(null, "palma");
         try {
             manager.createMission(mission);
@@ -67,7 +88,10 @@ public class MissionManagerImplTest {
         } catch (IllegalArgumentException ex) {
             //OK
         }
-
+    }
+    @Test
+    public void createMissionWithEmptyLocation() {
+        Mission mission;
         mission = newMission("", "palma");
         try {
             manager.createMission(mission);
@@ -75,7 +99,10 @@ public class MissionManagerImplTest {
         } catch (IllegalArgumentException ex) {
             //OK
         }
-
+    }
+    @Test
+    public void createMissionWithNullCodename() {
+        Mission mission;
         mission = newMission("Bora", null);
         try {
             manager.createMission(mission);
@@ -83,7 +110,10 @@ public class MissionManagerImplTest {
         } catch (IllegalArgumentException ex) {
             //OK
         }
-
+    }
+    @Test
+    public void createMissionWithEmptyCodename() {
+        Mission mission;
         mission = newMission("Bora", "");
         try {
             manager.createMission(mission);
@@ -111,7 +141,7 @@ public class MissionManagerImplTest {
         Collections.sort(actual, idComparator);
         Collections.sort(expected, idComparator);
 
-        assertEquals("saved and retrieved missions differ", expected, actual);
+        assertEquals(expected, actual);
         assertDeepEquals(expected, actual);
     }
 
@@ -119,41 +149,30 @@ public class MissionManagerImplTest {
 
     @Test
     public void updateMission() {
-        Mission mission = newMission("Rusko", "opica");
+        Mission mission = newMission("Malyp", "smrt");
         Mission m2 = newMission("Ukrajina", "jelen");
+
         manager.createMission(mission);
         manager.createMission(m2);
+
         Long missionId = mission.getId();
 
-        mission.setLocation("nic");
+        mission.setLocation("jam");
         manager.updateMission(mission);
         mission = manager.findMissionById(missionId);
-        assertEquals("nic", mission.getLocation());
-        assertEquals("opica", mission.getCodeName());
+        assertEquals("jam", mission.getLocation());
+        assertEquals("smrt", mission.getCodeName());
 
-        mission.setLocation(null);
+        mission.setCodeName("la");
         manager.updateMission(mission);
         mission = manager.findMissionById(missionId);
-        assertNull(mission.getLocation());
-        assertEquals("opica", mission.getCodeName());
+        assertEquals("jam", mission.getLocation());
+        assertEquals("la", mission.getCodeName());
 
-        mission.setCodeName("nieco");
-        manager.updateMission(mission);
-        mission = manager.findMissionById(missionId);
-        assertEquals("Rusko", mission.getLocation());
-        assertEquals("nieco", mission.getCodeName());
-
-        mission.setCodeName(null);
-        manager.updateMission(mission);
-        mission = manager.findMissionById(missionId);
-        assertEquals("Rusko", mission.getLocation());
-        assertNull(mission.getCodeName());
-
-        // Check if updates didn't affected other records
         assertDeepEquals(m2, manager.findMissionById(m2.getId()));
     }
 
-
+/*
     @Test
     public void updateMissionWithWrongAttributes() {
 
@@ -222,6 +241,7 @@ public class MissionManagerImplTest {
             //OK
         }
     }
+    */
 
 
     @Test
@@ -241,7 +261,7 @@ public class MissionManagerImplTest {
         assertNotNull(manager.findMissionById(m2.getId()));
 
     }
-
+    /*
     @Test
     public void deleteMissionWithWrongAttributes() {
 
@@ -272,9 +292,9 @@ public class MissionManagerImplTest {
 
     }
 
+*/
     private static Mission newMission(String location, String codename) {
         Mission mission = new Mission();
-        //mission.setId(id);
         mission.setLocation(location);
         mission.setCodeName(codename);
 

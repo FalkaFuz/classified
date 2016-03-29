@@ -31,44 +31,33 @@ import org.junit.rules.ExpectedException;
  * @author xschwar2
  */
 public class AgentManagerImplTest {
-    
+
     private AgentManagerImpl manager;
-    private DataSource dataSource;
+    private DataSource ds;
 
     @Rule
-    // attribute annotated with @Rule annotation must be public :-(
     public ExpectedException expectedException = ExpectedException.none();
 
-    @Before
-    public void setUp() throws SQLException {
-        dataSource = prepareDataSource();
-        Connection connection = dataSource.getConnection();
-        connection.prepareStatement("CREATE TABLE AGENT ("
-                + "id bigint primary key generated always as identity,"
-                + "agentname varchar(50) not null,"
-                + "agentcover varchar(50) not null,"
-                + "favweapon varchar(50) not null)").executeUpdate();
 
-        manager = new AgentManagerImpl(dataSource);
-    }
-
-    @After
-    public void tearDown() throws SQLException {
-        try (Connection connection = dataSource.getConnection()) {
-            connection.prepareStatement("DROP TABLE AGENT").executeUpdate();
-        }
-    }
-
-    
     private static DataSource prepareDataSource() throws SQLException {
         EmbeddedDataSource ds = new EmbeddedDataSource();
-        //we will use in memory database
         ds.setDatabaseName("memory:agentmgr-test");
         ds.setCreateDatabase("create");
         return ds;
     }
-  
 
+    @Before
+    public void setUp() throws SQLException {
+        ds = prepareDataSource();
+        DBUtils.executeSqlScript(ds,AgentManager.class.getResource("/createtables.sql"));
+        manager = new AgentManagerImpl();
+        manager.setDataSource(ds);
+    }
+
+    @After
+    public void tearDown() throws SQLException {
+        DBUtils.executeSqlScript(ds,AgentManager.class.getResource("/droptables.sql"));
+    }
 
     @Test
     public void testCreateAgent(){

@@ -172,7 +172,7 @@ public class MissionManagerImplTest {
         assertDeepEquals(m2, manager.findMissionById(m2.getId()));
     }
 
-/*
+
     @Test
     public void updateMissionWithWrongAttributes() {
 
@@ -183,7 +183,7 @@ public class MissionManagerImplTest {
         try {
             manager.updateMission(null);
             fail();
-        } catch (IllegalArgumentException ex) {
+        } catch (IllegalEntityException|IllegalArgumentException ex) {
             //OK
         }
 
@@ -192,7 +192,7 @@ public class MissionManagerImplTest {
             mission.setId(null);
             manager.updateMission(mission);
             fail();
-        } catch (IllegalArgumentException ex) {
+        } catch (IllegalEntityException|IllegalArgumentException ex) {
             //OK
         }
 
@@ -201,7 +201,7 @@ public class MissionManagerImplTest {
             mission.setId(missionId - 1);
             manager.updateMission(mission);
             fail();
-        } catch (IllegalArgumentException ex) {
+        } catch (IllegalEntityException|IllegalArgumentException ex) {
             //OK
         }
 
@@ -210,7 +210,7 @@ public class MissionManagerImplTest {
             mission.setLocation(null);
             manager.updateMission(mission);
             fail();
-        } catch (IllegalArgumentException ex) {
+        } catch (IllegalEntityException|IllegalArgumentException ex) {
             //OK
         }
 
@@ -219,7 +219,7 @@ public class MissionManagerImplTest {
             mission.setLocation("");
             manager.updateMission(mission);
             fail();
-        } catch (IllegalArgumentException ex) {
+        } catch (IllegalEntityException|IllegalArgumentException ex) {
             //OK
         }
 
@@ -228,7 +228,7 @@ public class MissionManagerImplTest {
             mission.setCodeName(null);
             manager.updateMission(mission);
             fail();
-        } catch (IllegalArgumentException ex) {
+        } catch (IllegalEntityException|IllegalArgumentException ex) {
             //OK
         }
 
@@ -237,11 +237,11 @@ public class MissionManagerImplTest {
             mission.setCodeName("");
             manager.updateMission(mission);
             fail();
-        } catch (IllegalArgumentException ex) {
+        } catch (IllegalEntityException|IllegalArgumentException ex) {
             //OK
         }
     }
-    */
+
 
 
     @Test
@@ -261,7 +261,7 @@ public class MissionManagerImplTest {
         assertNotNull(manager.findMissionById(m2.getId()));
 
     }
-    /*
+
     @Test
     public void deleteMissionWithWrongAttributes() {
 
@@ -270,7 +270,7 @@ public class MissionManagerImplTest {
         try {
             manager.deleteMission(null);
             fail();
-        } catch (IllegalArgumentException ex) {
+        } catch (IllegalEntityException|IllegalArgumentException ex) {
             //OK
         }
 
@@ -278,7 +278,7 @@ public class MissionManagerImplTest {
             mission.setId(null);
             manager.deleteMission(mission);
             fail();
-        } catch (IllegalArgumentException ex) {
+        } catch (IllegalEntityException|IllegalArgumentException ex) {
             //OK
         }
 
@@ -286,13 +286,13 @@ public class MissionManagerImplTest {
             mission.setId(13L);
             manager.deleteMission(mission);
             fail();
-        } catch (IllegalArgumentException ex) {
+        } catch (IllegalEntityException|IllegalArgumentException ex) {
             //OK
         }
 
     }
 
-*/
+
     private static Mission newMission(String location, String codename) {
         Mission mission = new Mission();
         mission.setLocation(location);

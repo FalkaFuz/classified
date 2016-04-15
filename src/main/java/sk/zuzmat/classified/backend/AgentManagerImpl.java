@@ -5,6 +5,10 @@
  */
 package sk.zuzmat.classified.backend;
 
+import sk.zuzmat.classified.common.DBUtils;
+import sk.zuzmat.classified.common.IllegalEntityException;
+import sk.zuzmat.classified.common.ServiceFailureException;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

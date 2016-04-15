@@ -1,6 +1,5 @@
 package sk.zuzmat.classified.backend;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collections;
@@ -12,14 +11,14 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.sameInstance;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.apache.derby.jdbc.EmbeddedDataSource;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
+import sk.zuzmat.classified.common.DBUtils;
+import sk.zuzmat.classified.common.IllegalEntityException;
 
 
 /**
@@ -43,6 +42,7 @@ public class MissionManagerImplTest {
     @Before
     public void setUp() throws SQLException {
         ds = prepareDataSource();
+//        DBUtils.executeSqlScript(ds,MissionManager.class.getResource("/droptables.sql"));
         DBUtils.executeSqlScript(ds,MissionManager.class.getResource("/createtables.sql"));
         manager = new MissionManagerImpl();
         manager.setDataSource(ds);
@@ -174,63 +174,111 @@ public class MissionManagerImplTest {
 
 
     @Test
-    public void updateMissionWithWrongAttributes() {
+    public void updateMissionWithNullId() {
 
-        Mission mission = newMission("Afrika", "kebab");
+        Mission mission;
+        mission = newMission("Afrika", "kebab");
         manager.createMission(mission);
         Long missionId = mission.getId();
 
-        try {
+       /* try {
             manager.updateMission(null);
             fail();
         } catch (IllegalEntityException|IllegalArgumentException ex) {
             //OK
-        }
+        }*/
 
         try {
             mission = manager.findMissionById(missionId);
             mission.setId(null);
             manager.updateMission(mission);
             fail();
-        } catch (IllegalEntityException|IllegalArgumentException ex) {
+        } catch (IllegalEntityException | IllegalArgumentException ex) {
             //OK
         }
+    }
+
+    @Test
+    public void updateMissionWithWrongId() {
+
+        Mission mission;
+        mission = newMission("Afrika", "kebab");
+        manager.createMission(mission);
+        Long missionId = mission.getId();
 
         try {
             mission = manager.findMissionById(missionId);
             mission.setId(missionId - 1);
             manager.updateMission(mission);
             fail();
-        } catch (IllegalEntityException|IllegalArgumentException ex) {
+        } catch (IllegalEntityException | IllegalArgumentException ex) {
             //OK
         }
+    }
+
+    @Test
+    public void updateMissionWithNullLocation() {
+
+        Mission mission;
+        mission = newMission("Afrika", "kebab");
+        manager.createMission(mission);
+        Long missionId = mission.getId();
 
         try {
             mission = manager.findMissionById(missionId);
             mission.setLocation(null);
             manager.updateMission(mission);
             fail();
-        } catch (IllegalEntityException|IllegalArgumentException ex) {
+        } catch (IllegalEntityException | IllegalArgumentException ex) {
             //OK
         }
+    }
+
+    @Test
+    public void updateMissionWithEmptyLocation() {
+
+        Mission mission;
+        mission = newMission("Afrika", "kebab");
+        manager.createMission(mission);
+        Long missionId = mission.getId();
 
         try {
             mission = manager.findMissionById(missionId);
             mission.setLocation("");
             manager.updateMission(mission);
             fail();
-        } catch (IllegalEntityException|IllegalArgumentException ex) {
+        } catch (IllegalEntityException | IllegalArgumentException ex) {
             //OK
         }
+    }
+
+    @Test
+    public void updateMissionWithNullCodename() {
+
+        Mission mission;
+        mission = newMission("Afrika", "kebab");
+        manager.createMission(mission);
+        Long missionId = mission.getId();
+
 
         try {
             mission = manager.findMissionById(missionId);
             mission.setCodeName(null);
             manager.updateMission(mission);
             fail();
-        } catch (IllegalEntityException|IllegalArgumentException ex) {
+        } catch (IllegalEntityException | IllegalArgumentException ex) {
             //OK
         }
+    }
+
+    @Test
+    public void updateMissionWithEmptyCodename() {
+
+        Mission mission;
+        mission = newMission("Afrika", "kebab");
+        manager.createMission(mission);
+        Long missionId = mission.getId();
+
 
         try {
             mission = manager.findMissionById(missionId);
@@ -263,34 +311,32 @@ public class MissionManagerImplTest {
     }
 
     @Test
-    public void deleteMissionWithWrongAttributes() {
+    public void deleteMissionNull() {
 
         Mission mission = newMission("Korea", "lakatos");
 
         try {
             manager.deleteMission(null);
             fail();
-        } catch (IllegalEntityException|IllegalArgumentException ex) {
+        } catch (IllegalEntityException | IllegalArgumentException ex) {
             //OK
         }
+    }
+    @Test
+    public void deleteMissionWithNullId() {
+
+        Mission mission = newMission("Korea", "lakatos");
 
         try {
             mission.setId(null);
             manager.deleteMission(mission);
             fail();
-        } catch (IllegalEntityException|IllegalArgumentException ex) {
+        } catch (IllegalEntityException | IllegalArgumentException ex) {
             //OK
         }
-
-        try {
-            mission.setId(13L);
-            manager.deleteMission(mission);
-            fail();
-        } catch (IllegalEntityException|IllegalArgumentException ex) {
-            //OK
-        }
-
     }
+
+
 
 
     private static Mission newMission(String location, String codename) {

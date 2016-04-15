@@ -5,12 +5,11 @@
  */
 package sk.zuzmat.classified.backend;
 
-import sk.zuzmat.classified.backend.DBUtils;
-import sk.zuzmat.classified.backend.IllegalEntityException;
-import sk.zuzmat.classified.backend.ServiceFailureException;
+import sk.zuzmat.classified.common.DBUtils;
+import sk.zuzmat.classified.common.IllegalEntityException;
+import sk.zuzmat.classified.common.ServiceFailureException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -132,8 +131,8 @@ public class MissionControlManagerImpl implements MissionControlManager{
             conn = dataSource.getConnection();
             st = conn.prepareStatement(
                     "SELECT Agent.id, agentname, agentcover, favweapon " +
-                            "FROM Agent JOIN Mission ON Mission.id = Agent.missionId " +
-                            "WHERE Mission.id = ?");
+                            "FROM Agent JOIN Mission ON Missionid = Agent.missionId " +
+                            "WHERE Missionid = ?");
             st.setLong(1, mission.getId());
             return AgentManagerImpl.executeQueryForMultipleAgents(st);
         } catch (SQLException ex) {
@@ -150,10 +149,10 @@ public class MissionControlManagerImpl implements MissionControlManager{
     public Mission getAssignedMission(Agent agent) throws ServiceFailureException, IllegalEntityException {
         checkDataSource();
         if (agent == null) {
-            throw new IllegalArgumentException("body is null");
+            throw new IllegalArgumentException("agent is null");
         }
         if (agent.getId() == null) {
-            throw new IllegalEntityException("body id is null");
+            throw new IllegalEntityException("agent id is null");
         }
         Connection conn = null;
         PreparedStatement st = null;

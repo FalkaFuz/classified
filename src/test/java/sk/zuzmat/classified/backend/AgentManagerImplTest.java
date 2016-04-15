@@ -5,7 +5,6 @@
  */
 package sk.zuzmat.classified.backend;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collections;
@@ -25,6 +24,7 @@ import static org.junit.Assert.*;
 import org.apache.derby.jdbc.EmbeddedDataSource;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
+import sk.zuzmat.classified.common.DBUtils;
 
 /**
  *

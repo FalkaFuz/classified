@@ -1,4 +1,4 @@
-package sk.zuzmat.classified.backend;
+package sk.zuzmat.classified.common;
 
         import java.io.IOException;
         import java.io.InputStreamReader;

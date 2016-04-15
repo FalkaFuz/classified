@@ -1,4 +1,4 @@
-package sk.zuzmat.classified.backend;
+package sk.zuzmat.classified.common;
 
 /**
  * Created by zuzka on 29.03.2016.

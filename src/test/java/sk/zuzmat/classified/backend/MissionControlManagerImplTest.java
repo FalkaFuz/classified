@@ -5,21 +5,23 @@
  */
 package sk.zuzmat.classified.backend;
 
+import org.apache.derby.jdbc.EmbeddedDataSource;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
-
-import java.sql.SQLException;
-import javax.sql.DataSource;
-import org.apache.derby.jdbc.EmbeddedDataSource;
-import org.junit.*;
 import org.junit.rules.ExpectedException;
 import sk.zuzmat.classified.common.DBUtils;
 import sk.zuzmat.classified.common.IllegalEntityException;
 import sk.zuzmat.classified.common.ServiceFailureException;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import javax.sql.DataSource;
+import java.sql.SQLException;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 
 /**

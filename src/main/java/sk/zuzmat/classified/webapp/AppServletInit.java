@@ -5,6 +5,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import sk.zuzmat.classified.backend.Agent;
 import sk.zuzmat.classified.backend.AgentManagerImpl;
+import sk.zuzmat.classified.backend.Mission;
+import sk.zuzmat.classified.backend.MissionManagerImpl;
 import sk.zuzmat.classified.common.DBUtils;
 
 import javax.servlet.ServletContextEvent;
@@ -14,7 +16,7 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 
 /**
- * @author Dominik Szalai - emptulik at gmail.com on 16.04.2016.
+ * @author Falka
  */
 @WebListener
 public class AppServletInit implements ServletContextListener
@@ -24,7 +26,8 @@ public class AppServletInit implements ServletContextListener
     public void contextInitialized(ServletContextEvent sce)
     {
         log.info("Started");
-        AgentManagerImpl manager = null;
+        AgentManagerImpl agentManager;
+        MissionManagerImpl missionManager;
         DataSource ds = null;
         try
         {
@@ -37,25 +40,53 @@ public class AppServletInit implements ServletContextListener
         }
 
 
-        manager = new AgentManagerImpl();
-        manager.setDataSource(ds);
-        log.info("Manager {}",manager);
+        agentManager = new AgentManagerImpl();
+        agentManager.setDataSource(ds);
+        log.info("Manager {}",agentManager);
         log.info("DS {}",ds);
-        sce.getServletContext().setAttribute("agentManager",manager);
-        log.debug("manager set");
+        sce.getServletContext().setAttribute("agentManager",agentManager);
+        log.debug("agentManager set");
 
         Agent a = new Agent();
         a.setCoverName("Pista");
         a.setName("Stefan");
         a.setFavouriteWeapon("Fists");
-        manager.createAgent(a);
+
+        agentManager.createAgent(a);
 
         Agent b = new Agent();
         b.setCoverName("Vladimir");
         b.setName("Ilja");
         b.setFavouriteWeapon("AK47");
 
-        manager.createAgent(b);
+        agentManager.createAgent(b);
+
+        //zuz hackuje
+
+        missionManager = new MissionManagerImpl();
+        missionManager.setDataSource(ds);
+        log.info("Manager {}",missionManager);
+        log.info("DS {}",ds);
+        sce.getServletContext().setAttribute("missionManager",missionManager);
+        log.debug("missionManager set");
+
+        Mission m = new Mission();
+        m.setCodeName("MaRaKuJa");
+        m.setLocation("Bahamas");
+
+        missionManager.createMission(m);
+
+        Mission n = new Mission();
+        n.setCodeName("zelenina");
+        n.setLocation("New Zeland");
+
+        missionManager.createMission(n);
+        //koniec hackovania
+
+
+
+
+
     }
 
     @Override

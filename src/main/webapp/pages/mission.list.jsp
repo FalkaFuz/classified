@@ -19,7 +19,7 @@
     <meta name="description" content="tajne">
     <meta name="author" content="ja">
 
-    <title>Agent Database</title>
+    <title>Mission Database</title>
 
     <!-- Bootstrap core CSS -->
     <link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
@@ -39,65 +39,55 @@
 <body>
 
 <nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
-    <a class="navbar-brand" href="#">AGENTS</a>
+    <a class="navbar-brand" href="#">MISSIONS</a>
 </nav>
 
 <div class="container-fluid">
     <div class="row">
         <div class="col-xs-4 col-xs-offset-2">
-            <h2>Add new agent</h2>
-            <form method="POST" action="add-agent">
+            <h2>Add new mission</h2>
+            <form method="POST" action="add-mission">
                 <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-4 form-control-label">Agent name</label>
+                    <label for="inputEmail3" class="col-sm-4 form-control-label">Mission code</label>
                     <div class="col-sm-8">
-                        <input type="text" name="name" placeholder="agent name" class="form-control"/>
+                        <input type="text" name="name" placeholder="code name" class="form-control"/>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-4 form-control-label">Agent cover name</label>
+                    <label for="inputEmail3" class="col-sm-4 form-control-label">Mission location</label>
                     <div class="col-sm-8">
-                        <input type="text" name="coverName" placeholder="cover name" class="form-control"/>
+                        <input type="text" name="location" placeholder="location" class="form-control"/>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-4 form-control-label">Weapon of choice</label>
-                    <div class="col-sm-8">
-                        <input type="text" name="favWeapon" placeholder="favourite weapon" class="form-control"/>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-success">Send agent</button>
+                <button type="submit" class="btn btn-success">Send mission</button>
             </form>
         </div>
     </div>
     <div class="row push-down">
         <div class="col-xs-8 col-xs-offset-2">
-            <h2>List of agents</h2>
-            <form method="POST" action="delete-agents">
+            <h2>List of missions</h2>
+            <form method="POST" action="delete-missions">
                 <table class="table table-hover">
                     <thead class="thead-default">
                     <tr>
                         <th>#</th>
-                        <th>cover name</th>
-                        <th>real name</th>
-                        <th>favourite weapon</th>
+                        <th>location</th>
+                        <th>code name</th>
                         <th>delete</th>
                         <th>edit</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${agentList}" var="entry" varStatus="i">
+                    <c:forEach items="${missionList}" var="entry" varStatus="i">
                         <tr>
                             <td>
                                 <c:out value="${i.index+1}"/>
                             </td>
                             <td>
-                                <c:out value="${entry.coverName}"/>
+                                <c:out value="${entry.location}"/>
                             </td>
                             <td>
-                                <c:out value="${entry.name}"/>
-                            </td>
-                            <td>
-                                <c:out value="${entry.favouriteWeapon}"/>
+                                <c:out value="${entry.codeName}"/>
                             </td>
                             <td>
                                 <input type="checkbox" name="id" value="<c:out value="${entry.id}" />"/>
@@ -109,7 +99,7 @@
                     </c:forEach>
                     </tbody>
                 </table>
-                <button type="submit" class="btn btn-danger">Delete checked agents</button>
+                <button type="submit" class="btn btn-danger">Delete checked missions</button>
             </form>
         </div>
     </div>

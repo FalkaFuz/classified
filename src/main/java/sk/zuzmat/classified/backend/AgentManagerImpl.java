@@ -228,7 +228,7 @@ public class AgentManagerImpl implements AgentManager{
         if (agent.getCoverName() == null || agent.getCoverName().isEmpty()) {
             throw new IllegalArgumentException("agent cover name is null or empty");
         }
-        if (agent.getName().equals(agent.getCoverName())) {
+        if (agent.getName().trim().equals(agent.getCoverName().trim())) {
             throw new IllegalArgumentException("name and cover name are same");
         }
         if (agent.getFavouriteWeapon() == null || agent.getFavouriteWeapon().isEmpty()) {

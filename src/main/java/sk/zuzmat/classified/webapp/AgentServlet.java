@@ -13,9 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @author Dominik Szalai - emptulik at gmail.com on 16.04.2016.
+ * @author Falka
  */
-@WebServlet(urlPatterns = "/agents/*")
+@WebServlet(name = "Agents", urlPatterns = "/agents/*")
 public class AgentServlet extends HttpServlet
 {
     private static final Logger log = LogManager.getLogger(AgentServlet.class);
@@ -24,7 +24,9 @@ public class AgentServlet extends HttpServlet
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
         log.info("Requested url {}", req.getPathInfo());
-        switch (req.getPathInfo())
+
+        String action = req.getPathInfo();
+        switch (action)
         {
             case "/":
                 listAll(req);
@@ -36,7 +38,8 @@ public class AgentServlet extends HttpServlet
                 req.getRequestDispatcher("/pages/agent.edit.jsp").forward(req,resp);
                 break;
             default:
-                throw new IllegalArgumentException("huehue");
+                resp.sendError(HttpServletResponse.SC_NOT_FOUND,
+                        "Unknown action: " + action);
         }
 
 
@@ -46,7 +49,9 @@ public class AgentServlet extends HttpServlet
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
         log.info("Inside post {}", req.getPathInfo());
-        switch (req.getPathInfo())
+
+        String action = req.getPathInfo();
+        switch (action)
         {
             case "/add-agent":
                 addAgent(req);
@@ -58,10 +63,12 @@ public class AgentServlet extends HttpServlet
                 editAgent(req);
                 break;
             default:
-                throw new IllegalArgumentException("huehue");
+                resp.sendError(HttpServletResponse.SC_NOT_FOUND,
+                        "Unknown action: " + action);
         }
 
-        defaultAction(req, resp);
+        //defaultAction(req, resp);
+        resp.sendRedirect("/classified/agents/");
     }
 
     /**
@@ -95,10 +102,6 @@ public class AgentServlet extends HttpServlet
         }
     }
 
-    private void editGet(HttpServletRequest req)
-    {
-
-    }
 
     private void editAgent(HttpServletRequest req)
     {

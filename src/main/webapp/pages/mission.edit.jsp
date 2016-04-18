@@ -19,7 +19,7 @@
     <meta name="description" content="tajne">
     <meta name="author" content="ja">
 
-    <title>Agent Edit</title>
+    <title>Mission Edit</title>
 
     <!-- Bootstrap core CSS -->
     <link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
@@ -39,38 +39,31 @@
 <body>
 
 <nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
-    <a class="navbar-brand" href="#">AGENT EDIT</a>
+    <a class="navbar-brand" href="#">MISSION EDIT</a>
 </nav>
 
 <div class="container-fluid">
     <div class="row">
 
         <div class="col-xs-4 col-xs-offset-2">
-            <h2>Edit this agent</h2>
+            <h2>Edit this mission</h2>
             <form method="POST" action="submit-edit">
                 <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-4 form-control-label">Agent name</label>
+                    <label for="inputEmail3" class="col-sm-4 form-control-label">Mission code</label>
                     <div class="col-sm-8">
-                        <input type="text" name="name" placeholder="agent name" class="form-control"
-                               value="<c:out value="${agent.name}"/>"/>
+                        <input type="text" name="name" placeholder="code name" class="form-control"
+                               value="<c:out value="${mission.codeName}"/>"/>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-4 form-control-label">Agent cover name</label>
+                    <label for="inputEmail3" class="col-sm-4 form-control-label">Mission location</label>
                     <div class="col-sm-8">
-                        <input type="text" name="coverName" placeholder="cover name" class="form-control"
-                               value="<c:out value="${agent.coverName}"/>"/>
+                        <input type="text" name="location" placeholder="location" class="form-control"
+                               value="<c:out value="${mission.location}"/>"/>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-4 form-control-label">Weapon of choice</label>
-                    <div class="col-sm-8">
-                        <input type="text" name="favWeapon" placeholder="Favourite weapon" class="form-control"
-                               value="<c:out value="${agent.favouriteWeapon}"/> "/>
-                    </div>
-                </div>
-                <input type="hidden" value="<c:out value="${agent.id}"/>" name="id"/>
-                <button type="submit" class="btn btn-success">Send agent</button>
+                <input type="hidden" value="<c:out value="${mission.id}"/>" name="id"/>
+                <button type="submit" class="btn btn-success">Send mission</button>
             </form>
         </div>
     </div>

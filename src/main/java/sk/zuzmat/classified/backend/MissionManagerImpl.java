@@ -224,6 +224,9 @@ public class MissionManagerImpl implements MissionManager{
         if (mission.getCodeName() == null || mission.getCodeName().isEmpty()) {
             throw new IllegalArgumentException("mission code name is null or empty");
         }
+        if (mission.getLocation().trim().equals(mission.getCodeName().trim())) {
+            throw new IllegalArgumentException(("mission code name and location are the same"));
+        }
 
     }
 }

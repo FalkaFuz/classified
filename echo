@@ -1,0 +1,12 @@
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[ERROR] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Invalid task '%JAVA_HOME%': you must specify a valid lifecycle phase, or a goal in the format plugin:goal or pluginGroupId:pluginArtifactId:pluginVersion:goal
+[INFO] ------------------------------------------------------------------------
+[INFO] For more information, run Maven with the -e switch
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: < 1 second
+[INFO] Finished at: Tue Apr 19 14:26:03 CEST 2016
+[INFO] Final Memory: 5M/236M
+[INFO] ------------------------------------------------------------------------

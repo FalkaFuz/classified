@@ -42,6 +42,8 @@ public class MissionControlManagerImpl implements MissionControlManager{
     @Override
     public void assignAgentToMission(Agent agent, Mission mission) throws ServiceFailureException, IllegalEntityException {
         checkDataSource();
+
+
         if (mission == null) {
             throw new IllegalArgumentException("mission is null");
         }

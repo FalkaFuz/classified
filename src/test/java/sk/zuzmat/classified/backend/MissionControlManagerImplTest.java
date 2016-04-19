@@ -236,12 +236,12 @@ public class MissionControlManagerImplTest {
         manager.assignAgentToMission(a2, missionWithNullId);
     }
 
-    /*
+
     @Test(expected = IllegalEntityException.class)
     public void assignAgentToMissionNotInDB() {
         manager.assignAgentToMission(a2, missionNotInDB);
     }
-    */
+
 
     @Test
     public void removeAgentFromMission() {
@@ -357,21 +357,21 @@ public class MissionControlManagerImplTest {
     }
     @Test
     public void getAssignedAgentsWithSqlExceptionThrown() throws SQLException {
-        testExpectedServiceFailureException((cemeteryManager) -> cemeteryManager.getAssignedAgents(m1));
+        testExpectedServiceFailureException((missionControlManager) -> missionControlManager.getAssignedAgents(m1));
     }
 
     @Test
     public void getAssignedMissionWithSqlExceptionThrown() throws SQLException {
-        testExpectedServiceFailureException((cemeteryManager) -> cemeteryManager.getAssignedMission(a1));
+        testExpectedServiceFailureException((missionControlManager) -> missionControlManager.getAssignedMission(a1));
     }
 
     @Test
     public void assignAgentToMissionWithSqlExceptionThrown() throws SQLException {
-        testExpectedServiceFailureException((cemeteryManager) -> cemeteryManager.assignAgentToMission(a1, m1));
+        testExpectedServiceFailureException((missionControlManager) -> missionControlManager.assignAgentToMission(a1, m1));
     }
 
     @Test
     public void removeAgentFromMissionWithSqlExceptionThrown() throws SQLException {
-        testExpectedServiceFailureException((cemeteryManager) -> cemeteryManager.removeAgentFromMission(a1, m1));
+        testExpectedServiceFailureException((missionControlManager) -> missionControlManager.removeAgentFromMission(a1, m1));
     }
 }

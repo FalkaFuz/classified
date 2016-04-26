@@ -16,9 +16,6 @@ public class ClassifiedGuiForm {
     private JButton CREATEAgentButton;
     private JList listOfMissions;
     private JList list1;
-    private JComboBox comboBox1;
-    private JComboBox comboBox2;
-    private JButton ASSIGNButton;
     private JButton REMOVEButton;
     private JList list2;
     private JScrollBar scrollBar3;
@@ -26,4 +23,7 @@ public class ClassifiedGuiForm {
     private JButton CHOOSE;
     private JScrollBar scrollBar2;
     private JScrollBar scrollBar4;
+    private JComboBox comboBox1;
+    private JComboBox comboBox2;
+    private JButton ASSIGNButton;
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.zuzmat.classified.gui.controller.MissionsOverviewController">
+    <children>
+        <TableView fx:id="missionTable" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <columns>
+                <TableColumn fx:id="nameColumn" prefWidth="75.0" text="%mission.name" />
+                <TableColumn fx:id="locationColumn" prefWidth="75.0" text="%mission.location" />
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+        </TableView>
+        <ButtonBar layoutX="400.0" layoutY="331.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <buttons>
+                <Button mnemonicParsing="false" text="%button.new" onAction="#handleNewButton"/>
+                <Button mnemonicParsing="false" text="%button.edit" onAction="#handleEditButton" />
+                <Button mnemonicParsing="false" text="%button.delete" onAction="#handleDeleteButton"/>
+            </buttons>
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+            </padding>
+        </ButtonBar>
+    </children>
+</AnchorPane>

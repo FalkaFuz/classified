@@ -1,4 +1,4 @@
-package sk.zuzmat.classified.gui;
+package sk.zuzmat.classified.gui.swingDraft;
 
 import javax.swing.*;
 

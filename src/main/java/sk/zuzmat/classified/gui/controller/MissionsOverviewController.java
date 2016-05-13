@@ -2,6 +2,7 @@ package sk.zuzmat.classified.gui.controller;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -77,8 +78,20 @@ public class MissionsOverviewController {
 
         nameColumn.setCellValueFactory(m -> new SimpleStringProperty(m.getValue().getCodeName()));
         locationColumn.setCellValueFactory(m -> new SimpleStringProperty(m.getValue().getLocation()));
-        missionTable.setItems(FXCollections.observableArrayList(missionsManager.findAllMissions()));
+        Task<List<Mission>> task = new Task<List<Mission>>() {
 
+            @Override
+            protected List<Mission> call() throws Exception {
+                return missionsManager.findAllMissions();
+            }
+
+            @Override
+            protected void succeeded() {
+                missionTable.setItems(FXCollections.observableArrayList(getValue()));
+            }
+
+        };
+        new Thread(task).start();
         missionTable.setOnMousePressed(event -> {
             if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
                 showMissionAgents(missionTable.getSelectionModel().getSelectedItem());
@@ -90,8 +103,21 @@ public class MissionsOverviewController {
     private void handleNewButton() {
         Mission mission = new Mission();
         if (showMissionDialog(mission)) {
-            missionsManager.createMission(mission);
-            missionTable.getItems().add(mission);
+            Task task = new Task() {
+
+                @Override
+                protected Object call() throws Exception {
+                    missionsManager.createMission(mission);
+                    return null;
+                }
+
+                @Override
+                protected void succeeded() {
+                    missionTable.getItems().add(mission);
+                }
+            };
+
+            new Thread(task).start();
         }
     }
 

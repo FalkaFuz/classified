@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sk.zuzmat.classified.backend.Mission;
 import sk.zuzmat.classified.backend.MissionManager;
@@ -117,6 +118,8 @@ public class MissionsOverviewController {
     private boolean showMissionDialog(Mission mission) {
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/view/MissionDialog.fxml"), ResourceBundle.getBundle("localization/bundle"));
         Stage stage = new Stage();
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(missionTable.getScene().getWindow());
         AnchorPane pane;
         try {
             pane = loader.load();

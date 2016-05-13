@@ -77,6 +77,12 @@ public class MissionsOverviewController {
         nameColumn.setCellValueFactory(m -> new SimpleStringProperty(m.getValue().getCodeName()));
         locationColumn.setCellValueFactory(m -> new SimpleStringProperty(m.getValue().getLocation()));
         missionTable.setItems(FXCollections.observableArrayList(missionsManager.findAllMissions()));
+
+        missionTable.setOnMousePressed(event -> {
+            if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+                showMissionAgents(missionTable.getSelectionModel().getSelectedItem());
+            }
+        });
     }
 
     @FXML
@@ -125,5 +131,9 @@ public class MissionsOverviewController {
         stage.setScene(scene);
         stage.showAndWait();
         return controller.isOkClicked();
+    }
+
+    private void showMissionAgents(Mission selectedItem) {
+
     }
 }

@@ -1,5 +1,7 @@
 package sk.zuzmat.classified.desktop;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import sk.zuzmat.classified.backend.AgentManager;
 import sk.zuzmat.classified.backend.AgentManagerImpl;
 import sk.zuzmat.classified.backend.MissionControlManager;
@@ -17,7 +19,7 @@ import java.util.ResourceBundle;
 /**
  * Created by Matúš on 14. 5. 2016.
  */
-public class MainFrame extends javax.swing.JFrame {
+public class MainFrame extends JFrame {
 
     Locale defaultLocale = Locale.getDefault();
     ResourceBundle text = ResourceBundle.getBundle("label", defaultLocale);
@@ -26,7 +28,7 @@ public class MainFrame extends javax.swing.JFrame {
     private final MissionManager missionManager = new MissionManagerImpl();
     private MissionControlManager missionControlManager = new MissionControlManagerImpl();
 
-    //private final static org.slf4j.Logger log = LoggerFactory.getLogger(MainFrame.class);
+    private static final Logger log = LogManager.getLogger(MainFrame.class);
 
 
     private JFrame agentsOnMission;
@@ -54,34 +56,12 @@ public class MainFrame extends javax.swing.JFrame {
     private JComboBox agentMissionComboBox;
     private JLabel agentMissionLabel;
     private JButton missionShowButton;
-    private JPanel panel1;
+    private JPanel rootPanel;
     private JTable table1;
     //End of variables declaration
 
     private void createUIComponents() {
-        tabbedPane = new JTabbedPane();
-        missionsTable = new JTable();
-        missionLocationText = new JTextField();
-        missionCodeNameText = new JTextField();
-        missionCreateButton = new JButton();
-        missionDeleteButton = new JButton();
-        agentsTable = new JTable();
-        agentCreateButton = new JButton();
-        agentDeleteButton = new JButton();
-        agentNameLabel = new JLabel();
-        agentCoverNameLabel = new JLabel();
-        agentFavouriteWeaponLabel = new JLabel();
-        agentNameText = new JTextField();
-        agentCoverNameText = new JTextField();
-        agentFavouriteWeaponText = new JTextField();
-        missionLocationLabel = new JLabel();
-        missionCodeNameLabel = new JLabel();
-        agentRemoveButton = new JButton();
-        agentAssignButton = new JButton();
-        agentMissionComboBox = new JComboBox();
-        agentMissionLabel = new JLabel();
-        missionShowButton = new JButton();
-        panel1 = new JPanel();
+
     }
 
     /**
@@ -89,6 +69,13 @@ public class MainFrame extends javax.swing.JFrame {
      * Creates new form MainFrame
      */
     public MainFrame(){
+        //createUIComponents();
+        setContentPane(rootPanel);
+        pack();
+
+        log.info("Inicialized");
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }
 

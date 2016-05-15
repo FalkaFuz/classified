@@ -72,6 +72,7 @@ public class MainFrame extends JFrame {
         //createUIComponents();
         setContentPane(rootPanel);
         pack();
+        agentDeleteButton.setText(text.getString("agentDelete"));
 
         log.info("Inicialized");
 

@@ -309,7 +309,7 @@
                       </vspacer>
                     </children>
                   </grid>
-                  <scrollpane id="dcf50">
+                  <scrollpane id="dcf50" binding="missionScroll">
                     <constraints>
                       <splitpane position="left"/>
                     </constraints>

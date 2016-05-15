@@ -34,7 +34,7 @@ public class AgentTableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 4;
+        return 3;
     }
 
     @Override
@@ -49,29 +49,27 @@ public class AgentTableModel extends AbstractTableModel {
                 return "fsdf";
             case 2:
                 return "asdfsdf";
-            case 3:
-                return 2131;
+
             default:
                 throw new IllegalArgumentException("columnIndex");
         }
 
     }
-//
-//    @Override
-//    public String getColumnName(int columnIndex) {
-//        switch (columnIndex) {
-//            case 0:
-//                return label.getString("cover_name");
-//            case 1:
-//                return label.getString("name");
-//            case 2:
-//                return label.getString("fav_weapon");
-//            case 3:
-//                return label.getString("id_check");
-//            default:
-//                throw new IllegalArgumentException("columnIndex");
-//        }
-//    }
+
+    @Override
+    public String getColumnName(int columnIndex) {
+        switch (columnIndex) {
+            case 0:
+                return label.getString("cover_name");
+            case 1:
+                return label.getString("name");
+            case 2:
+                return label.getString("fav_weapon");
+
+            default:
+                throw new IllegalArgumentException("columnIndex");
+        }
+    }
 //
 //    @Override
 //    public Class<?> getColumnClass(int columnIndex) {

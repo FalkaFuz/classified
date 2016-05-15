@@ -61,6 +61,7 @@ public class MainFrame extends JFrame {
     private JTable missionsTable;
     private JTable table1;
     private JScrollPane agentsScroll;
+    private JScrollPane missionScroll;
     //End of variables declaration
 
     private void setNames(){
@@ -87,6 +88,11 @@ public class MainFrame extends JFrame {
         agentsScroll = new JScrollPane();
         agentsScroll.setViewportView(agentsTable);
 
+        missionsTable = new JTable();
+        missionsTable.setModel(new MissionTableModel());
+        missionScroll = new JScrollPane();
+        missionScroll.setViewportView(missionsTable);
+
 
     }
 
@@ -97,34 +103,11 @@ public class MainFrame extends JFrame {
     public MainFrame(){
         setContentPane(rootPanel);
         setNames();
+        log.info("Inicialized");
         this.setTitle(label.getString("appName"));
 
 
-
-
-//        agentsTable = new JTable();
-//        agentsTable.setModel(new AgentTableModel());
-//        agentsScroll = new JScrollPane();
-//        agentsScroll.setViewportView(agentsTable);
-//
-//        agentsPanel = new JPanel();
-//        agentsPanel.add(agentsScroll);
-//        agentsPanel.add(agentsTable);
-        //agentSplit = new JSplitPane();
-        //agentSplit.setResizeWeight(0.5);
-
-
-        //pack();
-
-
-
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        log.info("Inicialized");
-
-
-
-        //pack();
         this.setSize(400, 400);
 
     }

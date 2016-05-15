@@ -26,7 +26,7 @@ public class DBUtils {
 
         Properties prop = new Properties();
 
-        try (InputStream input = DBUtils.class.getResourceAsStream("/config.PROPERTIES");) {
+        try (InputStream input = DBUtils.class.getResourceAsStream("/config.properties");) {
             prop.load(input);
         } catch (IOException e) {
             //logger.error("error reading properties", e);

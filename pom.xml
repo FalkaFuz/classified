@@ -131,5 +131,10 @@
             <artifactId>derby</artifactId>
             <version>10.12.1.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-dbcp2</artifactId>
+            <version>2.0.1</version>
+        </dependency>
     </dependencies>
 </project>

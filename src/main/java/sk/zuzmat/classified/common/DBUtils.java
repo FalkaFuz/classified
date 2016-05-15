@@ -1,15 +1,18 @@
 package sk.zuzmat.classified.common;
 
-        import java.io.IOException;
-        import java.io.InputStreamReader;
-        import java.net.URL;
-        import java.sql.Connection;
-        import java.sql.ResultSet;
-        import java.sql.SQLException;
-        import java.sql.Statement;
-        import java.util.logging.Level;
-        import java.util.logging.Logger;
-        import javax.sql.DataSource;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.sql.DataSource;
+import org.apache.commons.dbcp2.BasicDataSource;
 
 /**
  * Created by zuzka on 29.03.2016.
@@ -18,6 +21,27 @@ public class DBUtils {
 
     private static final Logger logger = Logger.getLogger(
             DBUtils.class.getName());
+
+    public static DataSource getDataSource() {
+
+        Properties prop = new Properties();
+
+        try (InputStream input = DBUtils.class.getResourceAsStream("/config.PROPERTIES");) {
+            prop.load(input);
+        } catch (IOException e) {
+            //logger.error("error reading properties", e);
+            logger.log(Level.SEVERE, "error reading properties", e);
+        }
+
+        BasicDataSource ds = new BasicDataSource();
+
+        ds.setUrl(prop.getProperty("dbUrl"));
+        ds.setDriverClassName("org.apache.derby.jdbc.ClientDriver");
+        ds.setUsername(prop.getProperty("dbUsername"));
+        ds.setPassword(prop.getProperty("dbPassword"));
+
+        return ds;
+    }
 
     /**
      * Closes connection and logs possible error.
@@ -72,6 +96,7 @@ public class DBUtils {
      *
      * @param key resultSet with key
      * @return key from given result set
+     * @return key from given result set
      * @throws SQLException when operation fails
      */
     public static Long getId(ResultSet key) throws SQLException {
@@ -111,6 +136,24 @@ public class DBUtils {
             return result.toString().split(";");
         } catch (IOException ex) {
             throw new RuntimeException("Cannot read " + url, ex);
+        }
+    }
+
+    private static String[] readSqlStatements(InputStream is) {
+        try {
+            char buffer[] = new char[256];
+            StringBuilder result = new StringBuilder();
+            InputStreamReader reader = new InputStreamReader(is, "UTF-8");
+            while (true) {
+                int count = reader.read(buffer);
+                if (count < 0) {
+                    break;
+                }
+                result.append(buffer, 0, count);
+            }
+            return result.toString().split(";");
+        } catch (IOException ex) {
+            throw new RuntimeException("Cannot read ", ex);
         }
     }
 

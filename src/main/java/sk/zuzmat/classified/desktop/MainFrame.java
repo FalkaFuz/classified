@@ -87,9 +87,7 @@ public class MainFrame extends JFrame {
         agentsScroll = new JScrollPane();
         agentsScroll.setViewportView(agentsTable);
 
-        agentsPanel = new JPanel();
-        agentsPanel.add(agentsScroll);
-        agentsPanel.add(agentsTable);
+
     }
 
     /**

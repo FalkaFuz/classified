@@ -5,6 +5,7 @@
  */
 package sk.zuzmat.classified.backend;
 
+import org.apache.logging.log4j.LogManager;
 import sk.zuzmat.classified.common.DBUtils;
 import sk.zuzmat.classified.common.ServiceFailureException;
 
@@ -25,8 +26,7 @@ import javax.sql.DataSource;
  */
 public class MissionManagerImpl implements MissionManager{
 
-    private static final Logger logger = Logger.getLogger(
-            MissionManagerImpl.class.getName());
+    private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(MissionManagerImpl.class);
 
     private DataSource dataSource;
 
@@ -73,7 +73,7 @@ public class MissionManagerImpl implements MissionManager{
             conn.commit();
         } catch (SQLException ex) {
             String msg = "Error when inserting mission into db";
-            logger.log(Level.SEVERE, msg, ex);
+            log.error(msg, ex);
             throw new ServiceFailureException(msg, ex);
         } finally {
             DBUtils.doRollbackQuietly(conn);
@@ -104,7 +104,7 @@ public class MissionManagerImpl implements MissionManager{
             conn.commit();
         } catch (SQLException ex) {
             String msg = "Error when updating mission in the db";
-            logger.log(Level.SEVERE, msg, ex);
+            log.error(msg, ex);
             throw new ServiceFailureException(msg, ex);
         } finally {
             DBUtils.doRollbackQuietly(conn);
@@ -135,7 +135,7 @@ public class MissionManagerImpl implements MissionManager{
             conn.commit();
         } catch (SQLException ex) {
             String msg = "Error when deleting mission from the db";
-            logger.log(Level.SEVERE, msg, ex);
+            log.error(msg, ex);
             throw new ServiceFailureException(msg, ex);
         } finally {
             DBUtils.doRollbackQuietly(conn);
@@ -162,7 +162,7 @@ public class MissionManagerImpl implements MissionManager{
             return executeQueryForSingleMission(st);
         } catch (SQLException ex) {
             String msg = "Error when getting mission with id = " + id + " from DB";
-            logger.log(Level.SEVERE, msg, ex);
+            log.error(msg, ex);
             throw new ServiceFailureException(msg, ex);
         } finally {
             DBUtils.closeQuietly(conn, st);
@@ -171,20 +171,6 @@ public class MissionManagerImpl implements MissionManager{
 
     @Override
     public List<Mission> findAllMissions() {
-//        checkDataSource();
-//
-//        logger.info("Finding all missions in db");
-//
-//        try (Connection conn = dataSource.getConnection()){
-//           try (PreparedStatement st = conn.prepareStatement(
-//                   "SELECT id, location, codename FROM MISSION")){
-//               return executeQueryForMultipleMissions(st);
-//           }
-//        } catch (SQLException ex){
-//            String msg = "Error when getting all missions from DB";
-//            logger.info(msg);
-//            throw new ServiceFailureException(msg, ex);
-//        }
 
         checkDataSource();
         Connection conn = null;
@@ -196,7 +182,7 @@ public class MissionManagerImpl implements MissionManager{
             return executeQueryForMultipleMissions(st);
         } catch (SQLException ex) {
             String msg = "Error when getting all missions from DB";
-            logger.log(Level.SEVERE, msg, ex);
+            log.error(msg, ex);
             throw new ServiceFailureException(msg, ex);
         } finally {
             DBUtils.closeQuietly(conn, st);

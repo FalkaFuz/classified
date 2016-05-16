@@ -2,14 +2,6 @@ package sk.zuzmat.classified.desktop;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import sk.zuzmat.classified.backend.AgentManager;
-import sk.zuzmat.classified.backend.AgentManagerImpl;
-import sk.zuzmat.classified.backend.MissionControlManager;
-import sk.zuzmat.classified.backend.MissionControlManagerImpl;
-import sk.zuzmat.classified.backend.MissionManager;
-import sk.zuzmat.classified.backend.MissionManagerImpl;
-import sk.zuzmat.classified.common.DBUtils;
-import javax.sql.DataSource;
 import javax.swing.*;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;

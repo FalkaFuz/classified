@@ -12,10 +12,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.sql.DataSource;
-import javax.xml.crypto.Data;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -23,9 +22,8 @@ import javax.xml.crypto.Data;
  */
 public class MissionControlManagerImpl implements MissionControlManager{
 
-    private static final Logger logger = Logger.getLogger(
-            MissionManagerImpl.class.getName());
-    ///THIS
+    private static final Logger log = LogManager.getLogger(MissionControlManagerImpl.class);
+
 
     public MissionControlManagerImpl(DataSource source) {
         this.dataSource = source;
@@ -81,7 +79,7 @@ public class MissionControlManagerImpl implements MissionControlManager{
             conn.commit();
         } catch (SQLException ex) {
             String msg = "Error when assigning agent to mission";
-            logger.log(Level.SEVERE, msg, ex);
+            log.error(msg, ex);
             throw new ServiceFailureException(msg, ex);
         } finally {
             DBUtils.doRollbackQuietly(conn);
@@ -118,7 +116,7 @@ public class MissionControlManagerImpl implements MissionControlManager{
             conn.commit();
         } catch (SQLException ex) {
             String msg = "Error when removing agent from mission";
-            logger.log(Level.SEVERE, msg, ex);
+            log.error(msg, ex);
             throw new ServiceFailureException(msg, ex);
         } finally {
             DBUtils.doRollbackQuietly(conn);
@@ -147,7 +145,7 @@ public class MissionControlManagerImpl implements MissionControlManager{
             return AgentManagerImpl.executeQueryForMultipleAgents(st);
         } catch (SQLException ex) {
             String msg = "Error when trying to find agents on mission " + mission;
-            logger.log(Level.SEVERE, msg, ex);
+            log.error(msg, ex);
             throw new ServiceFailureException(msg, ex);
         } finally {
             DBUtils.closeQuietly(conn, st);
@@ -176,7 +174,7 @@ public class MissionControlManagerImpl implements MissionControlManager{
             return MissionManagerImpl.executeQueryForSingleMission(st);
         } catch (SQLException ex) {
             String msg = "Error when trying to find mission with agent " + agent;
-            logger.log(Level.SEVERE, msg, ex);
+            log.error(msg, ex);
             throw new ServiceFailureException(msg, ex);
         } finally {
             DBUtils.closeQuietly(conn, st);

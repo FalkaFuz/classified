@@ -5,6 +5,7 @@
  */
 package sk.zuzmat.classified.backend;
 
+import org.apache.logging.log4j.LogManager;
 import sk.zuzmat.classified.common.DBUtils;
 import sk.zuzmat.classified.common.IllegalEntityException;
 import sk.zuzmat.classified.common.ServiceFailureException;
@@ -26,8 +27,9 @@ import javax.sql.DataSource;
  */
 public class AgentManagerImpl implements AgentManager{
 
-        private static final Logger logger = Logger.getLogger(
-                AgentManagerImpl.class.getName());
+
+        private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(MissionControlManagerImpl.class);
+
 
         private DataSource dataSource;
 
@@ -74,7 +76,7 @@ public class AgentManagerImpl implements AgentManager{
             conn.commit();
         } catch (SQLException ex) {
             String msg = "Error when inserting agent into db";
-            logger.log(Level.SEVERE, msg, ex);
+            log.error(msg, ex);
             throw new ServiceFailureException(msg, ex);
         } finally {
             DBUtils.doRollbackQuietly(conn);
@@ -106,7 +108,7 @@ public class AgentManagerImpl implements AgentManager{
             conn.commit();
         } catch (SQLException ex) {
             String msg = "Error when updating agent in the db";
-            logger.log(Level.SEVERE, msg, ex);
+            log.error(msg, ex);
             throw new ServiceFailureException(msg, ex);
         } finally {
             DBUtils.doRollbackQuietly(conn);
@@ -137,7 +139,7 @@ public class AgentManagerImpl implements AgentManager{
             conn.commit();
         } catch (SQLException ex) {
             String msg = "Error when deleting agent from the db";
-            logger.log(Level.SEVERE, msg, ex);
+            log.error(msg, ex);
             throw new ServiceFailureException(msg, ex);
         } finally {
             DBUtils.doRollbackQuietly(conn);
@@ -164,7 +166,7 @@ public class AgentManagerImpl implements AgentManager{
             return executeQueryForSingleAgent(st);
         } catch (SQLException ex) {
             String msg = "Error when getting agent with id = " + id + " from DB";
-            logger.log(Level.SEVERE, msg, ex);
+            log.error(msg, ex);
             throw new ServiceFailureException(msg, ex);
         } finally {
             DBUtils.closeQuietly(conn, st);
@@ -183,7 +185,7 @@ public class AgentManagerImpl implements AgentManager{
             return executeQueryForMultipleAgents(st);
         } catch (SQLException ex) {
             String msg = "Error when getting all agents from DB";
-            logger.log(Level.SEVERE, msg, ex);
+            log.error(msg, ex);
             throw new ServiceFailureException(msg, ex);
         } finally {
             DBUtils.closeQuietly(conn, st);

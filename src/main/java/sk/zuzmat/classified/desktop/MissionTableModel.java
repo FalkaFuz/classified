@@ -9,13 +9,10 @@ import java.util.ResourceBundle;
 import sk.zuzmat.classified.backend.Mission;
 import sk.zuzmat.classified.backend.MissionManagerImpl;
 import sk.zuzmat.classified.common.DBUtils;
-/**
- * Created by Matúš on 16. 5. 2016.
-=======
+
 
 /**
  * Created by zuzka on 15.05.2016.
->>>>>>> e1dbe5fc38117a7c7d6346f8acf4252d907799ac
  */
 public class MissionTableModel extends AbstractTableModel {
 
@@ -30,8 +27,8 @@ public class MissionTableModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        return 50;
-        //return agentManager.findAllAgents() != null ? agentManager.findAllAgents().size() : 0;
+        //return 10;
+        return missionManager.findAllMissions() != null ? missionManager.findAllMissions().size() : 0;
     }
 
     @Override
@@ -78,7 +75,20 @@ public class MissionTableModel extends AbstractTableModel {
                 throw new IllegalArgumentException("columnIndex");
         }
     }
-/*
+
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        switch (columnIndex) {
+            case 0:
+            case 1:
+                return true;
+//            case 2:
+//                return false;
+            default:
+                throw new IllegalArgumentException("columnIndex");
+        }
+    }
+
     @Override
     public Class<?> getColumnClass(int columnIndex) {
         switch (columnIndex) {
@@ -86,13 +96,13 @@ public class MissionTableModel extends AbstractTableModel {
                 return String.class;
             case 1:
                 return String.class;
-            case 2:
-                return Long.class;
+//            case 2:
+//                return Long.class;
             default:
                 throw new IllegalArgumentException("columnIndex");
         }
     }
-=======
+/*
 
     @Override
     public void setValueAt(final Object aValue, final int rowIndex, final int columnIndex) {

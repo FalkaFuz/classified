@@ -41,6 +41,12 @@ public class AgentManagerImpl implements AgentManager{
             }
         }
 
+     public AgentManagerImpl(DataSource source){
+         this.dataSource=source;
+     }
+
+    public AgentManagerImpl(){}
+
     @Override
     public void createAgent(Agent agent) {
         checkDataSource();

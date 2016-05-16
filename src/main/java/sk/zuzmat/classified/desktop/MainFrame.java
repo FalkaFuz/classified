@@ -8,7 +8,8 @@ import sk.zuzmat.classified.backend.MissionControlManager;
 import sk.zuzmat.classified.backend.MissionControlManagerImpl;
 import sk.zuzmat.classified.backend.MissionManager;
 import sk.zuzmat.classified.backend.MissionManagerImpl;
-
+import sk.zuzmat.classified.common.DBUtils;
+import javax.sql.DataSource;
 import javax.swing.*;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
@@ -24,9 +25,9 @@ public class MainFrame extends JFrame {
     Locale defaultLocale = Locale.getDefault();
     ResourceBundle label = ResourceBundle.getBundle("label", defaultLocale);
 
-    private final AgentManager agentManager = new AgentManagerImpl();
-    private final MissionManager missionManager = new MissionManagerImpl();
-    private MissionControlManager missionControlManager = new MissionControlManagerImpl();
+    //private final AgentManager agentManager = new AgentManagerImpl();
+    //private final MissionManager missionManager = new MissionManagerImpl();
+    //private MissionControlManager missionControlManager = new MissionControlManagerImpl();
 
     private static final Logger log = LogManager.getLogger(MainFrame.class);
 
@@ -106,7 +107,11 @@ public class MainFrame extends JFrame {
         log.info("Inicialized");
         this.setTitle(label.getString("appName"));
 
+//        agentManager.setDataSource(DBUtils.getDataSource());
+//        missionManager.setDataSource(DBUtils.getDataSource());
+//        missionControlManager.setDataSource(DBUtils.getDataSource());
 
+        log.info("Managers initialized");
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(400, 400);

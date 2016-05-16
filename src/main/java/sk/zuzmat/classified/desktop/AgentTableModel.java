@@ -28,8 +28,8 @@ public class AgentTableModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        return 50;
-        //return agentManager.findAllAgents() != null ? agentManager.findAllAgents().size() : 0;
+        //return 10;
+        return agentManager.findAllAgents() != null ? agentManager.findAllAgents().size() : 0;
     }
 
     @Override
@@ -67,6 +67,20 @@ public class AgentTableModel extends AbstractTableModel {
             case 2:
                 return label.getString("fav_weapon");
 
+            default:
+                throw new IllegalArgumentException("columnIndex");
+        }
+    }
+
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        switch (columnIndex) {
+            case 0:
+            case 1:
+            case 2:
+                return true;
+//            case 3:
+//                return false;
             default:
                 throw new IllegalArgumentException("columnIndex");
         }

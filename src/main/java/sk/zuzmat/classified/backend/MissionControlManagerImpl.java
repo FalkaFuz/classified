@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
+import javax.xml.crypto.Data;
 
 /**
  *
@@ -25,6 +26,13 @@ public class MissionControlManagerImpl implements MissionControlManager{
     private static final Logger logger = Logger.getLogger(
             MissionManagerImpl.class.getName());
     ///THIS
+
+    public MissionControlManagerImpl(DataSource source) {
+        this.dataSource = source;
+    }
+
+    public MissionControlManagerImpl() {
+    }
 
     private DataSource dataSource;
 

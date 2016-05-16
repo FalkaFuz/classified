@@ -240,9 +240,9 @@ public class MissionControlManagerImplTest {
     @Test(expected = IllegalEntityException.class)
     public void assignAgentToMissionNotInDB() { manager.assignAgentToMission(a2, missionNotInDB); }
 
-
     @Test
     public void removeAgentFromMission() {
+
 
         manager.assignAgentToMission(a1, m3);
         manager.assignAgentToMission(a3, m3);

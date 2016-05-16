@@ -5,6 +5,7 @@
  */
 package sk.zuzmat.classified.backend;
 
+import org.apache.derby.shared.common.error.DerbySQLIntegrityConstraintViolationException;
 import sk.zuzmat.classified.common.DBUtils;
 import sk.zuzmat.classified.common.IllegalEntityException;
 import sk.zuzmat.classified.common.ServiceFailureException;
@@ -71,7 +72,12 @@ public class MissionControlManagerImpl implements MissionControlManager{
                     "UPDATE Agent SET missionId = ? WHERE id = ? AND missionId IS NULL");
             updateSt.setLong(1, mission.getId());
             updateSt.setLong(2, agent.getId());
-            int count = updateSt.executeUpdate();
+            int count;
+            try {
+                count = updateSt.executeUpdate();
+            } catch (DerbySQLIntegrityConstraintViolationException ex) {
+                throw new IllegalEntityException("Zlo nedobro", ex);
+            }
             if (count == 0) {
                 throw new IllegalEntityException("Agent " + agent + " not found or it is already placed in some mission");
             }

@@ -101,7 +101,6 @@ public class MainFrame extends JFrame {
         this.setTitle(label.getString("appName"));
 
 
-        log.info("Managers initialized");
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(400, 400);
@@ -122,4 +121,3 @@ public class MainFrame extends JFrame {
         System.out.println("End");
     }
 }
-//dbUrl=jdbc:derby://localhost:1527/classified

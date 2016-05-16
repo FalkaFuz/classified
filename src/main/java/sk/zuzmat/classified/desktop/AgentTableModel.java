@@ -5,9 +5,10 @@ import javax.swing.table.AbstractTableModel;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import sk.zuzmat.classified.backend.Agent;
-import sk.zuzmat.classified.backend.AgentManagerImpl;
+
+import sk.zuzmat.classified.backend.*;
 import sk.zuzmat.classified.common.DBUtils;
+
 
 
 /**
@@ -16,6 +17,7 @@ import sk.zuzmat.classified.common.DBUtils;
 public class AgentTableModel extends AbstractTableModel {
 
     private final AgentManagerImpl agentManager = new AgentManagerImpl();
+    private final MissionControlManagerImpl controlManager = new MissionControlManagerImpl();
 
     Locale defaultLocale = Locale.getDefault();
     ResourceBundle label = ResourceBundle.getBundle("label", defaultLocale);
@@ -23,7 +25,8 @@ public class AgentTableModel extends AbstractTableModel {
 
 
     public AgentTableModel() {
-       agentManager.setDataSource(DBUtils.getDataSource());
+        agentManager.setDataSource(DBUtils.getDataSource());
+        controlManager.setDataSource(DBUtils.getDataSource());
     }
 
     @Override
@@ -33,7 +36,7 @@ public class AgentTableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 3;
+        return 4;
     }
 
     @Override
@@ -48,6 +51,8 @@ public class AgentTableModel extends AbstractTableModel {
                 return agent.getName();
             case 2:
                 return agent.getFavouriteWeapon();
+            case 3:
+                return controlManager.getAssignedMission(agent);
             default:
                 throw new IllegalArgumentException("columnIndex");
         }
@@ -63,6 +68,8 @@ public class AgentTableModel extends AbstractTableModel {
                 return label.getString("name");
             case 2:
                 return label.getString("fav_weapon");
+            case 3:
+                return label.getString("agent_mission");
             default:
                 throw new IllegalArgumentException("columnIndex");
         }
@@ -75,6 +82,8 @@ public class AgentTableModel extends AbstractTableModel {
             case 1:
             case 2:
                 return String.class;
+            case 3:
+                return Mission.class;
             default:
                 throw new IllegalArgumentException("columnIndex");
         }
@@ -120,6 +129,7 @@ public class AgentTableModel extends AbstractTableModel {
             case 0:
             case 1:
             case 2:
+            case 3:
                 return true;
             default:
                 throw new IllegalArgumentException("columnIndex");

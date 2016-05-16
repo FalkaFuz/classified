@@ -33,10 +33,7 @@ public class MainFrame extends JFrame {
     private final MissionControlManagerImpl controlManager = new MissionControlManagerImpl();
 
     private static final Logger log = LogManager.getLogger(MainFrame.class);
-
-
-    private JFrame agentsOnMission;
-
+    
     //Variables declaration - do not modify
     private JTabbedPane tabbedPane;
     private JTextField missionLocationText;
@@ -93,10 +90,6 @@ public class MainFrame extends JFrame {
         missionsTable = new JTable();
         missionsTable.setModel(new MissionTableModel());
 
-        agentMissionComboBox = new JComboBox();
-
-
-
     }
 
     /**
@@ -106,12 +99,11 @@ public class MainFrame extends JFrame {
     public MainFrame(){
         setContentPane(rootPanel);
         setNames();
-        log.info("Inicialized");
-        this.setTitle(label.getString("appName"));
 
         agentManager.setDataSource(DBUtils.getDataSource());
         missionManager.setDataSource(DBUtils.getDataSource());
         controlManager.setDataSource(DBUtils.getDataSource());
+        log.info("Connected to DB");
 
         List<Mission> missions = missionManager.findAllMissions();
         agentMissionComboBox.setModel(new DefaultComboBoxModel(missions.toArray()));
@@ -153,11 +145,15 @@ public class MainFrame extends JFrame {
                 agentRemoveButtonAction(e);
             }
         });
+        log.info("Activated listeners");
 
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(600, 600);
-
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setSize(1000, 600);
+        this.setTitle(label.getString("appName"));
+        this.setIconImage(new ImageIcon("security_agent.png").getImage());
+        this.setVisible(true);
+        log.info("Completed all settings");
     }
 
     private void agentMissionComboBoxAction(ActionEvent e){}

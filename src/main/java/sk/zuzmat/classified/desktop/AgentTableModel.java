@@ -23,7 +23,7 @@ public class AgentTableModel extends AbstractTableModel {
 
 
     public AgentTableModel() {
-        agentManager.setDataSource(DBUtils.getDataSource());
+       agentManager.setDataSource(DBUtils.getDataSource());
     }
 
     @Override

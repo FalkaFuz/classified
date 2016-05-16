@@ -41,8 +41,8 @@ public class MissionTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        List<Mission> missions = missionManager.findAllMissions();
-        Mission mission = missions.get(rowIndex);
+        //List<Mission> missions = missionManager.findAllMissions();
+        //Mission mission = missions.get(rowIndex);
 
         switch (columnIndex) {
             case 0:

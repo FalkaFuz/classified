@@ -5,6 +5,8 @@ import org.apache.logging.log4j.Logger;
 import sk.zuzmat.classified.backend.Agent;
 import sk.zuzmat.classified.backend.AgentManagerImpl;
 import sk.zuzmat.classified.backend.Mission;
+import sk.zuzmat.classified.backend.MissionControlManager;
+import sk.zuzmat.classified.backend.MissionControlManagerImpl;
 import sk.zuzmat.classified.backend.MissionManagerImpl;
 import sk.zuzmat.classified.common.DBUtils;
 
@@ -28,6 +30,7 @@ public class MainFrame extends JFrame {
 
     private final AgentManagerImpl agentManager = new AgentManagerImpl();
     private final MissionManagerImpl missionManager = new MissionManagerImpl();
+    private final MissionControlManagerImpl controlManager = new MissionControlManagerImpl();
 
     private static final Logger log = LogManager.getLogger(MainFrame.class);
 
@@ -90,6 +93,9 @@ public class MainFrame extends JFrame {
         missionsTable = new JTable();
         missionsTable.setModel(new MissionTableModel());
 
+        agentMissionComboBox = new JComboBox();
+
+
 
     }
 
@@ -102,8 +108,20 @@ public class MainFrame extends JFrame {
         setNames();
         log.info("Inicialized");
         this.setTitle(label.getString("appName"));
+
         agentManager.setDataSource(DBUtils.getDataSource());
         missionManager.setDataSource(DBUtils.getDataSource());
+        controlManager.setDataSource(DBUtils.getDataSource());
+
+        List<Mission> missions = missionManager.findAllMissions();
+        agentMissionComboBox.setModel(new DefaultComboBoxModel(missions.toArray()));
+        agentMissionComboBox.insertItemAt(null, 0);
+        agentMissionComboBox.setSelectedIndex(0);
+        agentMissionComboBox.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                agentMissionComboBoxAction(e);
+            }
+        });
 
         agentDeleteButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -125,11 +143,70 @@ public class MainFrame extends JFrame {
                 agentCreateButtonAction(e);
             }
         });
+        agentAssignButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                agentAssignButtonAction(e);
+            }
+        });
+        agentRemoveButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                agentRemoveButtonAction(e);
+            }
+        });
 
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(600, 600);
 
+    }
+
+    private void agentMissionComboBoxAction(ActionEvent e){}
+
+    private void agentRemoveButtonAction(ActionEvent e){
+
+        try {
+            int row = agentsTable.getSelectedRow();
+            AgentTableModel tableModel = (AgentTableModel) agentsTable.getModel();
+
+            List<Agent> agents = agentManager.findAllAgents();
+            Agent agent = agents.get(row);
+
+            if(agent == null){
+                throw new NullPointerException("agent is null");
+            }
+
+            log.info("Removing agent from mission");
+            tableModel.removeMission(agent, row);
+        } catch (NullPointerException ex){
+            log.error("agent is not selected");
+            JOptionPane.showMessageDialog(null, "Agent is not selected", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+
+    private void agentAssignButtonAction(ActionEvent e){
+
+        try {
+            Mission mission = (Mission) agentMissionComboBox.getSelectedItem();
+            int row = agentsTable.getSelectedRow();
+            AgentTableModel tableModel = (AgentTableModel) agentsTable.getModel();
+
+            List<Agent> agents = agentManager.findAllAgents();
+            Agent agent = agents.get(row);
+
+            if(agent == null || mission == null){
+                throw new NullPointerException("agent or mission is null");
+            }
+
+            log.info("Agent " + agent + " sending to " + mission);
+            tableModel.assignMission(agent, mission, row);
+
+            agentMissionComboBox.setSelectedIndex(0);
+
+        } catch(NullPointerException | IndexOutOfBoundsException ex){
+            log.error("Not selected agent or mission");
+            JOptionPane.showMessageDialog(null, "Select something", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void agentCreateButtonAction(ActionEvent evt){
@@ -166,6 +243,9 @@ public class MainFrame extends JFrame {
             missionManager.validate(mission);
             log.info("Adding mission " + mission + " into db via swing components");
             tableModel.addMission(mission);
+
+            DefaultComboBoxModel comboBoxModel = (DefaultComboBoxModel) agentMissionComboBox.getModel();
+            comboBoxModel.addElement(mission);
 
             missionCodeNameText.setText(null);
             missionLocationText.setText(null);
@@ -213,6 +293,9 @@ public class MainFrame extends JFrame {
 
         MissionTableModel tableModel = (MissionTableModel) missionsTable.getModel();
         tableModel.removeMission(mission);
+
+        DefaultComboBoxModel comboBoxModel = (DefaultComboBoxModel) agentMissionComboBox.getModel();
+        comboBoxModel.removeElement(mission);
     }
 
     public static void main(String[] args) throws SQLException, InvocationTargetException, InterruptedException {

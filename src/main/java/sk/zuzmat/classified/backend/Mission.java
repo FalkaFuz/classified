@@ -58,6 +58,15 @@ public class Mission {
     }
 
     @Override
+    public String toString() {
+        return "Mission{" +
+                "id=" + id +
+                ", codeName='" + codeName + '\'' +
+                ", location='" + location + '\'' +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

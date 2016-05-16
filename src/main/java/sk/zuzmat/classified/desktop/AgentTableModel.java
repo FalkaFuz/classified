@@ -44,6 +44,8 @@ public class AgentTableModel extends AbstractTableModel {
         List<Agent> agents = agentManager.findAllAgents();
         Agent agent = agents.get(rowIndex);
 
+        Mission mission = controlManager.getAssignedMission(agent);
+
         switch (columnIndex) {
             case 0:
                 return agent.getCoverName();
@@ -52,7 +54,7 @@ public class AgentTableModel extends AbstractTableModel {
             case 2:
                 return agent.getFavouriteWeapon();
             case 3:
-                return controlManager.getAssignedMission(agent);
+                return mission != null ? mission.getCodeName() : "";
             default:
                 throw new IllegalArgumentException("columnIndex");
         }
@@ -81,9 +83,8 @@ public class AgentTableModel extends AbstractTableModel {
             case 0:
             case 1:
             case 2:
-                return String.class;
             case 3:
-                return Mission.class;
+                return String.class;
             default:
                 throw new IllegalArgumentException("columnIndex");
         }
@@ -129,12 +130,14 @@ public class AgentTableModel extends AbstractTableModel {
             case 0:
             case 1:
             case 2:
-            case 3:
                 return true;
+            case 3:
+                return false;
             default:
                 throw new IllegalArgumentException("columnIndex");
         }
     }
+
 
     public void addAgent(final Agent agent) {
 
@@ -171,6 +174,40 @@ public class AgentTableModel extends AbstractTableModel {
                 int lastRow = agentManager.findAllAgents().size() - 1;
                 fireTableRowsDeleted(lastRow, lastRow);
             }
+        }.execute();
+    }
+
+    public void assignMission(final Agent agent, final Mission mission, int row){
+        new SwingWorker<Void, Void>(){
+
+            @Override
+            protected Void doInBackground(){
+                controlManager.assignAgentToMission(agent, mission);
+                return null;
+            }
+
+            @Override
+            protected void done(){
+                fireTableCellUpdated(row, 3);
+            }
+
+        }.execute();
+    }
+
+    public void removeMission(final Agent agent, int row) {
+        new SwingWorker<Void, Void>(){
+
+            @Override
+            protected Void doInBackground(){
+                controlManager.removeAgentFromMission(agent, controlManager.getAssignedMission(agent));
+                return null;
+            }
+
+            @Override
+            protected void done(){
+                fireTableCellUpdated(row, 3);
+            }
+
         }.execute();
     }
 

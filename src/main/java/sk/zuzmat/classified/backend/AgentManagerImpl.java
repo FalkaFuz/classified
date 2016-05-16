@@ -226,7 +226,7 @@ public class AgentManagerImpl implements AgentManager{
 
 
 
-    private void validate(Agent agent) throws IllegalArgumentException {
+    public void validate(Agent agent) throws IllegalArgumentException {
         if (agent == null) {
             throw new IllegalArgumentException("agent is null");
         }

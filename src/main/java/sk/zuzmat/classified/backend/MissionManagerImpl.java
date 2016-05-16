@@ -222,7 +222,7 @@ public class MissionManagerImpl implements MissionManager{
 
 
 
-    private void validate(Mission mission) throws IllegalArgumentException {
+    public void validate(Mission mission) throws IllegalArgumentException {
         if (mission == null) {
             throw new IllegalArgumentException("mission is null");
         }

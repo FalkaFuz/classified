@@ -165,7 +165,13 @@ public class AgentTableModel extends AbstractTableModel {
                 agentManager.deleteAgent(agent);
                 return null;
             }
-        };
+
+            @Override
+            public void done() {
+                int lastRow = agentManager.findAllAgents().size() - 1;
+                fireTableRowsDeleted(lastRow, lastRow);
+            }
+        }.execute();
     }
 
 }

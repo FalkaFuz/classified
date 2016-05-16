@@ -25,9 +25,6 @@ public class MainFrame extends JFrame {
     Locale defaultLocale = Locale.getDefault();
     ResourceBundle label = ResourceBundle.getBundle("label", defaultLocale);
 
-    //private final AgentManager agentManager = new AgentManagerImpl();
-    //private final MissionManager missionManager = new MissionManagerImpl();
-    //private MissionControlManager missionControlManager = new MissionControlManagerImpl();
 
     private static final Logger log = LogManager.getLogger(MainFrame.class);
 
@@ -86,13 +83,9 @@ public class MainFrame extends JFrame {
     private void createUIComponents(){
         agentsTable = new JTable();
         agentsTable.setModel(new AgentTableModel());
-//        agentsScroll = new JScrollPane();
-//        agentsScroll.setViewportView(agentsTable);
 
         missionsTable = new JTable();
         missionsTable.setModel(new MissionTableModel());
-//        missionScroll = new JScrollPane();
-//        missionScroll.setViewportView(missionsTable);
 
 
     }
@@ -107,9 +100,6 @@ public class MainFrame extends JFrame {
         log.info("Inicialized");
         this.setTitle(label.getString("appName"));
 
-//        agentManager.setDataSource(DBUtils.getDataSource());
-//        missionManager.setDataSource(DBUtils.getDataSource());
-//        missionControlManager.setDataSource(DBUtils.getDataSource());
 
         log.info("Managers initialized");
 

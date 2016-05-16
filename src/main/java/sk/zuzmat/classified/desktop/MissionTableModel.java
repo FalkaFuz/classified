@@ -27,7 +27,6 @@ public class MissionTableModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        //return 10;
         return missionManager.findAllMissions() != null ? missionManager.findAllMissions().size() : 0;
     }
 
@@ -38,20 +37,14 @@ public class MissionTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        //List<Mission> missions = missionManager.findAllMissions();
-        //Mission mission = missions.get(rowIndex);
+        List<Mission> missions = missionManager.findAllMissions();
+        Mission mission = missions.get(rowIndex);
 
         switch (columnIndex) {
             case 0:
-                return "asdfsdfdfasdf";
-            case 1:
-                return "sdfsadfasdf";
-/*
                 return mission.getCodeName();
             case 1:
                 return mission.getLocation();
-            case 2:
-                return mission.getId();*/
             default:
                 throw new IllegalArgumentException("columnIndex");
         }
@@ -62,15 +55,9 @@ public class MissionTableModel extends AbstractTableModel {
     public String getColumnName(int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return label.getString("mission_name");
+                return label.getString("code_name");
             case 1:
-                return label.getString("mission_localization");
-/*
-                return text.getString("code_name");
-            case 1:
-                return text.getString("location");
-            case 2:
-                return text.getString("id_check");*/
+                return label.getString("location");
             default:
                 throw new IllegalArgumentException("columnIndex");
         }
@@ -82,8 +69,6 @@ public class MissionTableModel extends AbstractTableModel {
             case 0:
             case 1:
                 return true;
-//            case 2:
-//                return false;
             default:
                 throw new IllegalArgumentException("columnIndex");
         }
@@ -96,13 +81,11 @@ public class MissionTableModel extends AbstractTableModel {
                 return String.class;
             case 1:
                 return String.class;
-//            case 2:
-//                return Long.class;
             default:
                 throw new IllegalArgumentException("columnIndex");
         }
     }
-/*
+
 
     @Override
     public void setValueAt(final Object aValue, final int rowIndex, final int columnIndex) {
@@ -135,18 +118,7 @@ public class MissionTableModel extends AbstractTableModel {
         }.execute();
     }
 
-    @Override
-    public boolean isCellEditable(int rowIndex, int columnIndex) {
-        switch (columnIndex) {
-            case 0:
-            case 1:
-                return true;
-            case 2:
-                return false;
-            default:
-                throw new IllegalArgumentException("columnIndex");
-        }
-    }
+
 
     public void addMission(final Mission mission) {
 
@@ -185,5 +157,5 @@ public class MissionTableModel extends AbstractTableModel {
             }
         }.execute();
 
-    }*/
+    }
 }

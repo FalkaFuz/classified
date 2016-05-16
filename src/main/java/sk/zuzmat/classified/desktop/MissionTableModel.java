@@ -5,6 +5,8 @@ import javax.swing.table.AbstractTableModel;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+
+import sk.zuzmat.classified.backend.Mission;
 import sk.zuzmat.classified.backend.MissionManagerImpl;
 import sk.zuzmat.classified.common.DBUtils;
 
@@ -37,8 +39,8 @@ public class MissionTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-//        List<Mission> missions = missionManager.findAllMissions();
-//        Mission mission = missions.get(rowIndex);
+        List<Mission> missions = missionManager.findAllMissions();
+        Mission mission = missions.get(rowIndex);
 
         switch (columnIndex) {
             case 0:
@@ -51,15 +53,15 @@ public class MissionTableModel extends AbstractTableModel {
 
     }
 
-//    @Override
-//    public String getColumnName(int columnIndex) {
-//        switch (columnIndex) {
-//            case 0:
-//                return label.getString("mission_name");
-//            case 1:
-//                return label.getString("mission_localization");
-//            default:
-//                throw new IllegalArgumentException("columnIndex");
-//        }
-//    }
+    @Override
+    public String getColumnName(int columnIndex) {
+        switch (columnIndex) {
+            case 0:
+                return label.getString("mission_name");
+            case 1:
+                return label.getString("mission_localization");
+            default:
+                throw new IllegalArgumentException("columnIndex");
+        }
+    }
 }

@@ -85,13 +85,13 @@ public class MainFrame extends JFrame {
     private void createUIComponents(){
         agentsTable = new JTable();
         agentsTable.setModel(new AgentTableModel());
-        agentsScroll = new JScrollPane();
-        agentsScroll.setViewportView(agentsTable);
+//        agentsScroll = new JScrollPane();
+//        agentsScroll.setViewportView(agentsTable);
 
         missionsTable = new JTable();
         missionsTable.setModel(new MissionTableModel());
-        missionScroll = new JScrollPane();
-        missionScroll.setViewportView(missionsTable);
+//        missionScroll = new JScrollPane();
+//        missionScroll.setViewportView(missionsTable);
 
 
     }

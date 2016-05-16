@@ -13,10 +13,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.apache.logging.log4j.core.config.plugins.PluginConfiguration;
 
 /**
  * Created by zuzka on 29.03.2016.
  */
+
 public class DBUtils {
 
     private static final Logger logger = Logger.getLogger(
@@ -36,7 +38,7 @@ public class DBUtils {
         BasicDataSource ds = new BasicDataSource();
 
         ds.setUrl(prop.getProperty("dbUrl"));
-        ds.setDriverClassName("org.apache.derby.jdbc.ClientDriver");
+        ds.setDriverClassName(prop.getProperty("dbDrive"));
         ds.setUsername(prop.getProperty("dbUsername"));
         ds.setPassword(prop.getProperty("dbPassword"));
 

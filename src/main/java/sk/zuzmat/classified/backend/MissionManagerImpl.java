@@ -164,6 +164,21 @@ public class MissionManagerImpl implements MissionManager{
 
     @Override
     public List<Mission> findAllMissions() {
+//        checkDataSource();
+//
+//        logger.info("Finding all missions in db");
+//
+//        try (Connection conn = dataSource.getConnection()){
+//           try (PreparedStatement st = conn.prepareStatement(
+//                   "SELECT id, location, codename FROM MISSION")){
+//               return executeQueryForMultipleMissions(st);
+//           }
+//        } catch (SQLException ex){
+//            String msg = "Error when getting all missions from DB";
+//            logger.info(msg);
+//            throw new ServiceFailureException(msg, ex);
+//        }
+
         checkDataSource();
         Connection conn = null;
         PreparedStatement st = null;

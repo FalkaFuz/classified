@@ -39,8 +39,9 @@ public class AgentTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        //List<Agent> agents = agentManager.findAllAgents();
-        //Agent agent = agents.get(rowIndex);
+
+//        List<Agent> agents = agentManager.findAllAgents();
+//        Agent agent = agents.get(rowIndex);
 
         switch (columnIndex) {
             case 0:

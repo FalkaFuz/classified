@@ -64,7 +64,7 @@ public class AgentonMissionTableModel extends AbstractTableModel {
     public String getColumnName(int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return label.getString("agents");
+                return label.getString("agentTab");
             default:
                 throw new IllegalArgumentException("columnIndex");
         }

@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 import sk.zuzmat.classified.backend.Agent;
 import sk.zuzmat.classified.backend.AgentManagerImpl;
 import sk.zuzmat.classified.backend.Mission;
-import sk.zuzmat.classified.backend.MissionControlManager;
 import sk.zuzmat.classified.backend.MissionControlManagerImpl;
 import sk.zuzmat.classified.backend.MissionManagerImpl;
 import sk.zuzmat.classified.common.DBUtils;
@@ -92,6 +91,12 @@ public class MainFrame extends JFrame {
 
         missionAgentsTable = new JTable();
         missionAgentsTable.setModel(new AgentonMissionTableModel(null));
+
+        agentsPanel = new JPanel();
+        missionsPanel = new JPanel();
+        tabbedPane = new JTabbedPane();
+
+
     }
 
     /**
@@ -101,6 +106,9 @@ public class MainFrame extends JFrame {
     public MainFrame(){
         setContentPane(rootPanel);
         setNames();
+
+        tabbedPane.addTab(label.getString("agentTab"),agentsPanel);
+        tabbedPane.addTab(label.getString("missionTab"),missionsPanel);
 
         agentManager.setDataSource(DBUtils.getDataSource());
         missionManager.setDataSource(DBUtils.getDataSource());
@@ -243,14 +251,14 @@ public class MainFrame extends JFrame {
             agent.setFavouriteWeapon(agentFavouriteWeaponText.getText());
 
             agentManager.validate(agent);
-            log.info("Adding agent " + agent + " into db");
+            log.info("Adding agent " + agent + " into database.");
             tableModel.addAgent(agent);
 
             agentNameText.setText(null);
             agentCoverNameText.setText(null);
             agentFavouriteWeaponText.setText(null);
         } catch (IllegalArgumentException ex){
-            String msg = "Text fields cannot be empty.";
+            String msg = "Text fields cannot be empty.\nReal name and Cover name cannot be the same.";
             log.error(msg + " when adding agent", ex);
             JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
 
@@ -267,7 +275,7 @@ public class MainFrame extends JFrame {
             mission.setLocation(missionLocationText.getText());
 
             missionManager.validate(mission);
-            log.info("Adding mission " + mission + " into database via swing components.");
+            log.info("Adding mission " + mission + " into database.");
             tableModel.addMission(mission);
 
             DefaultComboBoxModel comboBoxModel = (DefaultComboBoxModel) agentMissionComboBox.getModel();
@@ -278,7 +286,7 @@ public class MainFrame extends JFrame {
 
 
         } catch (IllegalArgumentException ex) {
-            String msg = "Text fields cannot be empty.";
+            String msg = "Text fields cannot be empty.\nLocation and Code name cannot be the same.";
             log.error(msg + " when adding mission", ex);
             JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -299,7 +307,7 @@ public class MainFrame extends JFrame {
         }
 
         AgentTableModel tableModel = (AgentTableModel) agentsTable.getModel();
-        log.info("Deleting agent " + agent + "from database via swing components.");
+        log.info("Deleting agent " + agent + " from database.");
         tableModel.removeAgent(agent);
 
     }
@@ -319,7 +327,7 @@ public class MainFrame extends JFrame {
         }
 
         MissionTableModel tableModel = (MissionTableModel) missionsTable.getModel();
-        log.info("Deleting mission " + mission + "from database via swing components.");
+        log.info("Deleting mission " + mission + "from database.");
         tableModel.removeMission(mission);
 
         DefaultComboBoxModel comboBoxModel = (DefaultComboBoxModel) agentMissionComboBox.getModel();

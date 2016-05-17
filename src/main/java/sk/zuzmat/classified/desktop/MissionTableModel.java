@@ -55,9 +55,9 @@ public class MissionTableModel extends AbstractTableModel {
     public String getColumnName(int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return label.getString("code_name");
+                return label.getString("missCodLabel");
             case 1:
-                return label.getString("location");
+                return label.getString("missLocationLab");
             default:
                 throw new IllegalArgumentException("columnIndex");
         }

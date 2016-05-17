@@ -64,11 +64,11 @@ public class AgentTableModel extends AbstractTableModel {
     public String getColumnName(int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return label.getString("cover_name");
+                return label.getString("agentCoverLabel");
             case 1:
-                return label.getString("name");
+                return label.getString("agentNameLabel");
             case 2:
-                return label.getString("fav_weapon");
+                return label.getString("agentFav");
             case 3:
                 return label.getString("agent_mission");
             default:

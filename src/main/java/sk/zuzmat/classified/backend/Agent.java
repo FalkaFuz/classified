@@ -51,12 +51,13 @@ public class Agent {
 
     @Override
     public String toString() {
-        return "Agent{" +
+        return coverName;
+        /*return "Agent{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", coverName='" + coverName + '\'' +
                 ", favouriteWeapon='" + favouriteWeapon + '\'' +
-                '}';
+                '}';*/
     }
 
     @Override

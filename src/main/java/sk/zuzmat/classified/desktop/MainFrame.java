@@ -105,7 +105,7 @@ public class MainFrame extends JFrame {
         agentManager.setDataSource(DBUtils.getDataSource());
         missionManager.setDataSource(DBUtils.getDataSource());
         controlManager.setDataSource(DBUtils.getDataSource());
-        log.info("Connected to DB");
+        log.info("Connected to DB.");
 
         List<Mission> missions = missionManager.findAllMissions();
         agentMissionComboBox.setModel(new DefaultComboBoxModel(missions.toArray()));
@@ -152,7 +152,7 @@ public class MainFrame extends JFrame {
                 missionShowButtonAction(e);
             }
         });
-        log.info("Activated listeners");
+        log.info("Listeners activated.");
 
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -174,7 +174,7 @@ public class MainFrame extends JFrame {
         try {
             mission = missions.get(row);
         } catch (ArrayIndexOutOfBoundsException ex) {
-            String msg = "No mission selected";
+            String msg = "No mission selected.";
             log.error(msg + " [table of missions is empty]");
             JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -198,7 +198,7 @@ public class MainFrame extends JFrame {
                 throw new NullPointerException("agent is null");
             }
 
-            log.info("Removing agent from mission");
+            log.info("Removing agent " +agent+" from mission" + controlManager.getAssignedMission(agent));
             tableModel.removeMission(agent, row);
         } catch (NullPointerException|IndexOutOfBoundsException ex){
             log.error("Agent is not selected");
@@ -221,13 +221,13 @@ public class MainFrame extends JFrame {
                 throw new NullPointerException("agent or mission is null");
             }
 
-            log.info("Agent " + agent + " sending to " + mission);
+            log.info("Sending " + agent + " to mission " + mission);
             tableModel.assignMission(agent, mission, row);
 
             agentMissionComboBox.setSelectedIndex(0);
 
         } catch(NullPointerException | IndexOutOfBoundsException ex){
-            log.error("Not selected agent or mission");
+            log.error("Not selected agent or mission.");
             JOptionPane.showMessageDialog(null, "Select agent and mission", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -250,7 +250,7 @@ public class MainFrame extends JFrame {
             agentCoverNameText.setText(null);
             agentFavouriteWeaponText.setText(null);
         } catch (IllegalArgumentException ex){
-            String msg = "Text fields cannot be empty";
+            String msg = "Text fields cannot be empty.";
             log.error(msg + " when adding agent", ex);
             JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
 
@@ -267,7 +267,7 @@ public class MainFrame extends JFrame {
             mission.setLocation(missionLocationText.getText());
 
             missionManager.validate(mission);
-            log.info("Adding mission " + mission + " into db via swing components");
+            log.info("Adding mission " + mission + " into database via swing components.");
             tableModel.addMission(mission);
 
             DefaultComboBoxModel comboBoxModel = (DefaultComboBoxModel) agentMissionComboBox.getModel();
@@ -278,7 +278,7 @@ public class MainFrame extends JFrame {
 
 
         } catch (IllegalArgumentException ex) {
-            String msg = "Text fields cannot be empty";
+            String msg = "Text fields cannot be empty.";
             log.error(msg + " when adding mission", ex);
             JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -292,13 +292,14 @@ public class MainFrame extends JFrame {
         try {
             agent = agents.get(row);
         } catch (ArrayIndexOutOfBoundsException ex) {
-            String msg = "No agent selected to delete";
+            String msg = "No agent selected to delete.";
             log.error(msg + " [table of agents is empty]");
             JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         AgentTableModel tableModel = (AgentTableModel) agentsTable.getModel();
+        log.info("Deleting agent " + agent + "from database via swing components.");
         tableModel.removeAgent(agent);
 
     }
@@ -311,13 +312,14 @@ public class MainFrame extends JFrame {
         try {
             mission = missions.get(row);
         } catch (ArrayIndexOutOfBoundsException ex) {
-            String msg = "No mission selected to delete";
+            String msg = "No mission selected to delete.";
             log.error(msg + " [table of missions is empty]");
             JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         MissionTableModel tableModel = (MissionTableModel) missionsTable.getModel();
+        log.info("Deleting mission " + mission + "from database via swing components.");
         tableModel.removeMission(mission);
 
         DefaultComboBoxModel comboBoxModel = (DefaultComboBoxModel) agentMissionComboBox.getModel();
@@ -327,13 +329,22 @@ public class MainFrame extends JFrame {
     public static void main(String[] args) throws SQLException, InvocationTargetException, InterruptedException {
 
 
-        System.out.println("Start");
+        System.out.println("Start.");
+
+        try {
+            log.info("Setting GUI look.");
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (UnsupportedLookAndFeelException|ClassNotFoundException|InstantiationException|IllegalAccessException e) {
+            log.error("GUI setup gone wrong.");
+            e.printStackTrace();
+        }
+
         java.awt.EventQueue.invokeAndWait(new Runnable() {
             @Override
             public void run(){
                 new MainFrame().setVisible(true);
             }
         });
-        System.out.println("End");
+        System.out.println("End.");
     }
 }

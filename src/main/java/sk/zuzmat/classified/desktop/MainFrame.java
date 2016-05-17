@@ -60,7 +60,7 @@ public class MainFrame extends JFrame {
     private JPanel missionsPanel;
     private JTable agentsTable;
     private JTable missionsTable;
-    private JTable table1;
+    private JTable missionAgentsTable;
     private JScrollPane agentsScroll;
     private JScrollPane missionScroll;
     //End of variables declaration
@@ -90,6 +90,8 @@ public class MainFrame extends JFrame {
         missionsTable = new JTable();
         missionsTable.setModel(new MissionTableModel());
 
+        missionAgentsTable = new JTable();
+        missionAgentsTable.setModel(new AgentonMissionTableModel(null));
     }
 
     /**
@@ -145,6 +147,11 @@ public class MainFrame extends JFrame {
                 agentRemoveButtonAction(e);
             }
         });
+        missionShowButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                missionShowButtonAction(e);
+            }
+        });
         log.info("Activated listeners");
 
 
@@ -157,6 +164,25 @@ public class MainFrame extends JFrame {
     }
 
     private void agentMissionComboBoxAction(ActionEvent e){}
+
+    private void missionShowButtonAction(ActionEvent e){
+
+        int row = missionsTable.getSelectedRow();
+        List<Mission> missions = missionManager.findAllMissions();
+        Mission mission = null;
+
+        try {
+            mission = missions.get(row);
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            String msg = "Nothing to select!";
+            log.error(msg + " [table of missions is empty]");
+            JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        missionAgentsTable.setModel(new AgentonMissionTableModel(mission));
+
+    }
 
     private void agentRemoveButtonAction(ActionEvent e){
 

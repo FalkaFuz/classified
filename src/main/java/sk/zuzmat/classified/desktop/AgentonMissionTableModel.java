@@ -1,20 +1,22 @@
 package sk.zuzmat.classified.desktop;
 
+import sk.zuzmat.classified.backend.Agent;
+import sk.zuzmat.classified.backend.AgentManagerImpl;
+import sk.zuzmat.classified.backend.Mission;
+import sk.zuzmat.classified.backend.MissionControlManagerImpl;
+import sk.zuzmat.classified.common.DBUtils;
+
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import sk.zuzmat.classified.backend.*;
-import sk.zuzmat.classified.common.DBUtils;
-
-
 
 /**
- * Created by Matúš on 14. 5. 2016.
+ * Created by Zuuz on 14. 5. 2016.
  */
-public class AgentTableModel extends AbstractTableModel {
+public class AgentonMissionTableModel extends AbstractTableModel {
 
     private final AgentManagerImpl agentManager = new AgentManagerImpl();
     private final MissionControlManagerImpl controlManager = new MissionControlManagerImpl();
@@ -22,38 +24,36 @@ public class AgentTableModel extends AbstractTableModel {
     Locale defaultLocale = Locale.getDefault();
     ResourceBundle label = ResourceBundle.getBundle("label", defaultLocale);
 
+    Mission mission;
 
-    public AgentTableModel() {
+    public AgentonMissionTableModel(Mission mission) {
         agentManager.setDataSource(DBUtils.getDataSource());
         controlManager.setDataSource(DBUtils.getDataSource());
+        this.mission = mission;
     }
 
     @Override
     public int getRowCount() {
-        return agentManager.findAllAgents() != null ? agentManager.findAllAgents().size() : 0;
+        if (mission == null)
+            return 0;
+        List<Agent> agents = controlManager.getAssignedAgents(mission);
+        return  agents != null ? agents.size() : 0;
     }
 
     @Override
     public int getColumnCount() {
-        return 4;
+        return 1;
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        List<Agent> agents = agentManager.findAllAgents();
+        List<Agent> agents = controlManager.getAssignedAgents(mission);
         Agent agent = agents.get(rowIndex);
 
-        Mission mission = controlManager.getAssignedMission(agent);
 
         switch (columnIndex) {
             case 0:
                 return agent.getCoverName();
-            case 1:
-                return agent.getName();
-            case 2:
-                return agent.getFavouriteWeapon();
-            case 3:
-                return mission != null ? mission.getCodeName() : "";
             default:
                 throw new IllegalArgumentException("columnIndex");
         }
@@ -64,13 +64,7 @@ public class AgentTableModel extends AbstractTableModel {
     public String getColumnName(int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return label.getString("cover_name");
-            case 1:
-                return label.getString("name");
-            case 2:
-                return label.getString("fav_weapon");
-            case 3:
-                return label.getString("agent_mission");
+                return label.getString("agents");
             default:
                 throw new IllegalArgumentException("columnIndex");
         }
@@ -80,15 +74,12 @@ public class AgentTableModel extends AbstractTableModel {
     public Class<?> getColumnClass(int columnIndex) {
         switch (columnIndex) {
             case 0:
-            case 1:
-            case 2:
-            case 3:
                 return String.class;
             default:
                 throw new IllegalArgumentException("columnIndex");
         }
     }
-
+/*
     @Override
     public void setValueAt(final Object aValue, final int rowIndex, final int columnIndex) {
         List<Agent> agents = agentManager.findAllAgents();
@@ -209,5 +200,6 @@ public class AgentTableModel extends AbstractTableModel {
 
         }.execute();
     }
+    */
 
 }

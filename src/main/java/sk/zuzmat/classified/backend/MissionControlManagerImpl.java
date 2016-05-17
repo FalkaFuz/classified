@@ -145,7 +145,7 @@ public class MissionControlManagerImpl implements MissionControlManager{
             conn = dataSource.getConnection();
             st = conn.prepareStatement(
                     "SELECT Agent.id, agentname, agentcover, favweapon " +
-                            "FROM Agent JOIN Mission ON Missionid = Agent.missionId " +
+                            "FROM Agent " +
                             "WHERE Missionid = ?");
             st.setLong(1, mission.getId());
             return AgentManagerImpl.executeQueryForMultipleAgents(st);

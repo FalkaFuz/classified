@@ -59,11 +59,12 @@ public class Mission {
 
     @Override
     public String toString() {
-        return "Mission{" +
+        return codeName;
+        /*return "Mission{" +
                 "id=" + id +
                 ", codeName='" + codeName + '\'' +
                 ", location='" + location + '\'' +
-                '}';
+                '}';*/
     }
 
     @Override

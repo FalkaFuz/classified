@@ -160,7 +160,7 @@ public class MainFrame extends JFrame {
         this.setTitle(label.getString("appName"));
         this.setIconImage(new ImageIcon("security_agent.png").getImage());
         this.setVisible(true);
-        log.info("Completed all settings");
+        log.info("Setup completed.");
     }
 
     private void agentMissionComboBoxAction(ActionEvent e){}
@@ -174,7 +174,7 @@ public class MainFrame extends JFrame {
         try {
             mission = missions.get(row);
         } catch (ArrayIndexOutOfBoundsException ex) {
-            String msg = "Nothing to select!";
+            String msg = "No mission selected";
             log.error(msg + " [table of missions is empty]");
             JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -185,6 +185,7 @@ public class MainFrame extends JFrame {
     }
 
     private void agentRemoveButtonAction(ActionEvent e){
+
 
         try {
             int row = agentsTable.getSelectedRow();
@@ -199,8 +200,8 @@ public class MainFrame extends JFrame {
 
             log.info("Removing agent from mission");
             tableModel.removeMission(agent, row);
-        } catch (NullPointerException ex){
-            log.error("agent is not selected");
+        } catch (NullPointerException|IndexOutOfBoundsException ex){
+            log.error("Agent is not selected");
             JOptionPane.showMessageDialog(null, "Agent is not selected", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -227,7 +228,7 @@ public class MainFrame extends JFrame {
 
         } catch(NullPointerException | IndexOutOfBoundsException ex){
             log.error("Not selected agent or mission");
-            JOptionPane.showMessageDialog(null, "Select something", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Select agent and mission", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -241,14 +242,17 @@ public class MainFrame extends JFrame {
             agent.setCoverName(agentCoverNameText.getText());
             agent.setFavouriteWeapon(agentFavouriteWeaponText.getText());
 
+            agentManager.validate(agent);
             log.info("Adding agent " + agent + " into db");
             tableModel.addAgent(agent);
 
             agentNameText.setText(null);
             agentCoverNameText.setText(null);
             agentFavouriteWeaponText.setText(null);
-        } catch (IllegalArgumentException e){
-            log.error("Check something", e);
+        } catch (IllegalArgumentException ex){
+            String msg = "Text fields cannot be empty";
+            log.error(msg + " when adding agent", ex);
+            JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
 
         }
     }
@@ -274,7 +278,7 @@ public class MainFrame extends JFrame {
 
 
         } catch (IllegalArgumentException ex) {
-            String msg = "Check the filling fields! [some is not correct]";
+            String msg = "Text fields cannot be empty";
             log.error(msg + " when adding mission", ex);
             JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -288,7 +292,7 @@ public class MainFrame extends JFrame {
         try {
             agent = agents.get(row);
         } catch (ArrayIndexOutOfBoundsException ex) {
-            String msg = "Nothing to remove!";
+            String msg = "No agent selected to delete";
             log.error(msg + " [table of agents is empty]");
             JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -307,7 +311,7 @@ public class MainFrame extends JFrame {
         try {
             mission = missions.get(row);
         } catch (ArrayIndexOutOfBoundsException ex) {
-            String msg = "Nothing to remove!";
+            String msg = "No mission selected to delete";
             log.error(msg + " [table of missions is empty]");
             JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
             return;

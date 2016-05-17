@@ -182,7 +182,7 @@ public class MainFrame extends JFrame {
         try {
             mission = missions.get(row);
         } catch (ArrayIndexOutOfBoundsException ex) {
-            String msg = "No mission selected.";
+            String msg = label.getString("noMiss");
             log.error(msg + " [table of missions is empty]");
             JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -210,7 +210,7 @@ public class MainFrame extends JFrame {
             tableModel.removeMission(agent, row);
         } catch (NullPointerException|IndexOutOfBoundsException ex){
             log.error("Agent is not selected");
-            JOptionPane.showMessageDialog(null, "Agent is not selected", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, label.getString("agNotSelected"), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -236,7 +236,7 @@ public class MainFrame extends JFrame {
 
         } catch(NullPointerException | IndexOutOfBoundsException ex){
             log.error("Not selected agent or mission.");
-            JOptionPane.showMessageDialog(null, "Select agent and mission", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, label.getString("selectAgMiss"), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -258,7 +258,7 @@ public class MainFrame extends JFrame {
             agentCoverNameText.setText(null);
             agentFavouriteWeaponText.setText(null);
         } catch (IllegalArgumentException ex){
-            String msg = "Text fields cannot be empty.\nReal name and Cover name cannot be the same.";
+            String msg = label.getString("wrongInputAg");
             log.error(msg + " when adding agent", ex);
             JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
 
@@ -286,7 +286,7 @@ public class MainFrame extends JFrame {
 
 
         } catch (IllegalArgumentException ex) {
-            String msg = "Text fields cannot be empty.\nLocation and Code name cannot be the same.";
+            String msg = label.getString("wrongInputMiss");
             log.error(msg + " when adding mission", ex);
             JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -300,7 +300,7 @@ public class MainFrame extends JFrame {
         try {
             agent = agents.get(row);
         } catch (ArrayIndexOutOfBoundsException ex) {
-            String msg = "No agent selected to delete.";
+            String msg = label.getString("agDelNotSelected");
             log.error(msg + " [table of agents is empty]");
             JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -320,7 +320,7 @@ public class MainFrame extends JFrame {
         try {
             mission = missions.get(row);
         } catch (ArrayIndexOutOfBoundsException ex) {
-            String msg = "No mission selected to delete.";
+            String msg = label.getString("missDelNotSelected");
             log.error(msg + " [table of missions is empty]");
             JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
             return;
